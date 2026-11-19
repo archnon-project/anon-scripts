@@ -34,8 +34,8 @@ NC="\e[0m"
 VERSION='4.0.0'
 COPYRIGHT='# Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #'
 OWNER='archnon@protonmail.com'
-REPO_CLEAR='https://github.com/strxint/tunnels-scripts'
-REPO_ONION='https://it7otdanqu7ktntxzm427cba6i53w6wlanlh23v5i3siqmos47pzhvyd.onion/strxint/tunnels-scripts'
+REPO_CLEAR='https://github.com/archnon-project/anon-scripts'
+REPO_ONION='(not available $DATE)'
 
 version(){
 echo -e "\n
