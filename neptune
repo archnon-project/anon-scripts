@@ -66,7 +66,7 @@ PROXY_MODE="tor"
 usage() {
   echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${P}neptune ${NC}<${GREEN}COMMAND${NC}> <${LB}URL${NC}>${NC}"
   echo -e "\n${BLUE}[${YELLOW}1${BLUE}]${ORANGE} --url ${NC}<${P}url${NC}>: ${WHITE}Resolv url using default proxy addr: '$ADDR:$PORT'.${NC}"
-  echo -e "\n${BLUE}[${YELLOW}2${BLUE}]${ORANGE} --proxy ${NC}<${P}addr${NC}> <${P}url${NC}>: ${WHITE}Use specific proxy addr for resolve.${NC}"
+  echo -e "\n${BLUE}[${YELLOW}2${BLUE}]${ORANGE} --proxy-url ${NC}<${P}addr${NC}> <${P}url${NC}>: ${WHITE}Use specific proxy addr for resolve.${NC}"
   
   echo -e "\n${BLUE}[${YELLOW}3${BLUE}]${ORANGE} --set-dns ${NC}<${P}addr${NC}>: ${WHITE}Change universal dns address for an specific addr.${NC}"
 
@@ -192,14 +192,14 @@ while [ $# -gt 0 ]; do
 
     ;;
 
-  --proxy)
+  --proxy-url)
     PROXY_ADDR=$2
     url=$3
 
     if [[ -z $PROXY_ADDR || -z $url ]]; then
 
       echo -e "\n${RED}[${WHITE}X${RED}] Missing proxy addr/url for resolve${NC}\n"
-      echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}neptune ${P}--proxy ${NC}<${BLUE}addr${NC}> <${BLUE}url${NC}>${NC}\n"
+      echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}neptune ${P}--proxy-url ${NC}<${BLUE}addr${NC}> <${BLUE}url${NC}>${NC}\n"
       exit 1
 
     else
