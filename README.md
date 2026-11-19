@@ -15,7 +15,7 @@
 
 - [@archnon-project](https://www.github.com/archnon-project) (archnon@protonmail.com)
 
-## ***Installation (can copy and paste to terminal)***
+## ***Installation (you can copy and paste the commands below)***
 
 1. Clone this GitHub repository, right from your terminal:
 
