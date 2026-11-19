@@ -308,7 +308,7 @@ myip() {
       echo -e "\n${RED}[${WHITE}-${RED}] Check Timeout${NC}"
       exit 1
     else
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Public IP:${GREEN} $(curl -s -w "\n" -m 5 --user-agent "$user_agent" --socks5-hostname $ADDR:$SOCKS $check_ip)${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Public IP:${GREEN} $(curl -s -w "\n" -m 5 --user-agent "$user_agent" --socks5-hostname $ADDR:$SOCKS $check_ip)${NC}\n"
     fi
 
   else
@@ -316,7 +316,7 @@ myip() {
       echo -e "\n${RED}[${WHITE}-${RED}] Check Timeout${NC}"
       exit 1
     else
-      echo -e "\n${RED}[${WHITE}OK${RED}] Public IP: ${GREEN}$(curl -s -w "\n" -m 5 --user-agent "$user_agent" $check_ip)${NC}"
+      echo -e "\n${RED}[${WHITE}OK${RED}] Public IP: ${GREEN}$(curl -s -w "\n" -m 5 --user-agent "$user_agent" $check_ip)${NC}\n"
     fi
   fi
 }
@@ -555,7 +555,7 @@ EOT
 stop() {
 
   if ! pgrep -a i2pd >/dev/null 2>&1 && ! pgrep -x tor >/dev/null 2>&1; then
-    echo -e "\n${RED}[${WHITE}-${RED}] Error: No active Tor/i2p${NC}"
+    echo -e "\n${RED}[${WHITE}-${RED}] Error: No active Tor/i2p${NC}\n"
     exit 1
   fi
 
@@ -621,7 +621,7 @@ if [[ $# -gt 0 ]]; then
       mode=1
 
       if [ $EUID -ne 0 ]; then
-        echo -e "\n${RED}[${WHITE}-${RED}] Run as root${NC}"
+        echo -e "\n${RED}[${WHITE}-${RED}] Run as root${NC}\n"
         exit 1
       fi
 
@@ -632,7 +632,7 @@ if [[ $# -gt 0 ]]; then
         config
         exit 0
       else
-        echo -e "\n${RED}[${YELLOW}warn${RED}]${P} Tor/i2pd Runs, stop first${NC}"
+        echo -e "\n${RED}[${YELLOW}warn${RED}]${P} Tor/i2pd runs, instead use '--restart'${NC}\n"
         exit 1
       fi
 
@@ -645,7 +645,7 @@ if [[ $# -gt 0 ]]; then
       mode=2
 
       if [ $EUID -ne 0 ]; then
-        echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+        echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
         exit 1
       fi
 
@@ -674,14 +674,14 @@ if [[ $# -gt 0 ]]; then
       if pgrep -x tor >/dev/null 2>&1; then
 
         if echo -e "AUTHENTICATE \"\"\nSIGNAL NEWNYM\nQUIT" | nc $ADDR $CONTROL >/dev/null 2>&1; then
-          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Built new circuit${NC}"
+          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Built new circuit${NC}\n"
         else
-          echo -e "\n${RED}[${WHITE}-${RED}] Error: no IP changed${NC}"
+          echo -e "\n${RED}[${WHITE}-${RED}] Error: no IP changed${NC}\n"
         fi
 
       else
 
-        echo -e "\n${RED}[${WHITE}-${RED}] Tor/i2p not Runs${NC}" # i miss you archnon
+        echo -e "\n${RED}[${WHITE}-${RED}] Tor/i2p not runs, instead use '--start'${NC}\n" # i miss you archnon
         exit 1
 
       fi
@@ -696,7 +696,7 @@ if [[ $# -gt 0 ]]; then
       mode=5
 
       if [ "$EUID" -ne 0 ]; then
-        echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+        echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
         exit 1
       fi
 
@@ -709,8 +709,8 @@ if [[ $# -gt 0 ]]; then
       ### Exceptions ###
 
       if ! (command -v systemctl >/dev/null 2>&1 || command -v runit >/dev/null 2>&1 || command -v rc-service >/dev/null 2>&1); then
-        echo -e "\n${RED}[${WHITE}-${RED}] Error: this system doesnt supports service${NC}"
-        echo -e "\n${RED}[${YELLOW}!${RED}] This script supports: ${ORANGE}systemd, runit, open-rc${NC}"
+        echo -e "\n${RED}[${WHITE}-${RED}] Error: this system doesnt supports archnon service${NC}\n"
+        echo -e "\n${RED}[${YELLOW}!${RED}] Archnon project was built for: ${ORANGE}systemd, runit and open-rc only!${NC}\n"
         exit 1
       fi
 
@@ -721,10 +721,10 @@ if [[ $# -gt 0 ]]; then
         echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Service Manager: ${GREEN}systemd${NC}"
 
         if systemctl is-enabled archnon >/dev/null 2>&1; then
-          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon is enabled${NC}"
+          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon is enabled${NC}\n"
           exit 1
         else
-          systemctl enable archnon >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon enabled${NC}" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}"
+          systemctl enable archnon >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon enabled${NC}\n" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}\n"
         fi
 
       fi
@@ -733,7 +733,7 @@ if [[ $# -gt 0 ]]; then
 
       if [ -f /etc/sv/archnon/run ] && command -v runit >/dev/null 2>&1; then
 
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Service Manager: ${GREEN}runit${NC}"
+        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Service Manager: ${GREEN}runit${NC}\n"
 
         if [ -d /run/runit/service ]; then
           export RSDIR=/run/runit/service
@@ -748,12 +748,12 @@ if [[ $# -gt 0 ]]; then
 
         if ls -l $RSDIR/archnon/ >/dev/null 2>&1; then
 
-          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon is enabled${NC}"
+          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon is enabled${NC}\n"
           exit 0
 
         else
 
-          ln -s /etc/sv/archnon $RSDIR >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon enabled${NC}" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}"
+          ln -s /etc/sv/archnon $RSDIR >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon enabled${NC}\n" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}\n"
 
         fi
 
@@ -763,13 +763,13 @@ if [[ $# -gt 0 ]]; then
 
       if [ -f /etc/init.d/archnon ] && command -v rc-update >/dev/null 2>&1; then
 
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Service Manager: ${GREEN}open-rc${NC}"
+        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Service Manager: ${GREEN}open-rc${NC}\n"
 
         if rc-update | grep -IE "archnon" >/dev/null 2>&1; then
-          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon is enabled${NC}"
+          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon is enabled${NC}\n"
           exit 0
         else
-          rc-update add archnon default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon enabled${NC}" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}"
+          rc-update add archnon default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon enabled${NC}\n" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}\n"
         fi
 
       fi
@@ -786,7 +786,7 @@ if [[ $# -gt 0 ]]; then
       mode=6
 
       if [ "$EUID" -ne 0 ]; then
-        echo -e "\n${RED}[${WHITE}-${RED}] Run as root${NC}"
+        echo -e "\n${RED}[${WHITE}-${RED}] Run as root${NC}\n"
         exit 1
       fi
 
@@ -800,13 +800,13 @@ if [[ $# -gt 0 ]]; then
 
       if [ -f /etc/systemd/system/archnon.service ] && command -v systemctl >/dev/null 2>&1; then
 
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Service Manager: ${GREEN}systemd${NC}"
+        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Service Manager: ${GREEN}systemd${NC}\n"
 
         if ! systemctl is-enabled archnon >/dev/null 2>&1; then
-          echo -e "\n${RED}[${WHITE}-${RED}] Archnon is disabled${NC}"
+          echo -e "\n${RED}[${WHITE}-${RED}] Archnon is disabled${NC}\n"
           exit 1
         else
-          systemctl disable archnon >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon disabled${NC}" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}"
+          systemctl disable archnon >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon disabled${NC}\n" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}\n"
         fi
 
       fi
@@ -826,10 +826,10 @@ if [[ $# -gt 0 ]]; then
         fi
 
         if ! ls -l $RSDIR/archnon/ >/dev/null 2>&1; then
-          echo -e "\n${RED}[${WHITE}-${RED}] Archnon is disabled${NC}"
+          echo -e "\n${RED}[${WHITE}-${RED}] Archnon is disabled${NC}\n"
           exit 1
         else
-          rm -rf $RSDIR/archnon >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon disabled${NC}" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}"
+          rm -rf $RSDIR/archnon >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon disabled${NC}\n" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}\n"
         fi
 
       fi
@@ -839,10 +839,10 @@ if [[ $# -gt 0 ]]; then
       if [ -f /etc/init.d/archnon ] && command -v rc-service >/dev/null 2>&1; then
 
         if ! rc-update | grep -IE "archnon" >/dev/null 2>&1; then
-          echo -e "\n${RED}[${WHITE}-${RED}] Archnon is disabled${NC}"
+          echo -e "\n${RED}[${WHITE}-${RED}] Archnon is disabled${NC}\n"
           exit 1
         else
-          rc-update del archnon default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon disabled ${NC}" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}"
+          rc-update del archnon default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Archnon disabled ${NC}\n" || echo -e "\n${RED}[${WHITE}-${RED}] Error: unexcepted${NC}\n"
         fi
 
       fi
@@ -859,13 +859,13 @@ if [[ $# -gt 0 ]]; then
       mode=7
 
       if [ $EUID -ne 0 ]; then
-        echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+        echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
         exit 1
       fi
 
       torrc
 
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Launching Archnon ...${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Launching Archnon ...${NC}\n"
 
       pkill -9 tor >/dev/null 2>&1
       pkill -9 i2pd >/dev/null 2>&1
@@ -884,8 +884,7 @@ if [[ $# -gt 0 ]]; then
       sleep 1
 
       if pgrep -x tor >/dev/null 2>&1; then
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Tor: ${GREEN}active${NC}"
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Service Ports: "
+        echo -e "\n\e[97m[\e[92m   Tor proxy ports   \e[97m]${NC}"
         echo -e "\n${BLUE}[${LB}OK${BLUE}]${ORANGE} SocksPort: ${WHITE}$ADDR${GREEN}:${WHITE}$SOCKS${NC}"
         echo -e "\n${BLUE}[${LB}OK${BLUE}]${ORANGE} TransPort: ${WHITE}$ADDR${GREEN}:${WHITE}$TRANS${NC}"
         echo -e "\n${BLUE}[${LB}OK${BLUE}]${ORANGE} ControlPort: ${WHITE}$ADDR${GREEN}:${WHITE}$CONTROL${NC}"
@@ -893,19 +892,17 @@ if [[ $# -gt 0 ]]; then
         echo -e "\n${BLUE}[${LB}OK${BLUE}]${ORANGE} HTTPTunnelPort: ${WHITE}$ADDR${GREEN}:${WHITE}$HTTP${NC}"
 
       else
-        echo -e "\n${RED}[${WHITE}OK${RED}]${P} Tor: ${RED}not active${NC}"
+        echo -e "\n${RED}[${WHITE}OK${RED}]${P} Tor proxy: ${RED}not active${NC}"
       fi
 
-      echo -ne "\n"
       sleep 1
 
       if pgrep -a i2pd >/dev/null 2>&1; then
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} i2pd: ${GREEN}active${NC}"
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Service Ports: ${NC}"
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${ORANGE} Socks Proxy: ${WHITE}$ADDR${GREEN}:${WHITE}$I2PSOCKS${NC}"
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${ORANGE} Http Proxy: ${WHITE}$ADDR${GREEN}:${WHITE}$I2PHTTP${NC}"
+        echo -e "\n\e[97m[\e[92m   I2P proxy ports   \e[97m]${NC}"
+        echo -e "\n${BLUE}[${LB}OK${BLUE}]${ORANGE} Protocol Socks v5: ${WHITE}$ADDR${GREEN}:${WHITE}$I2PSOCKS${NC}"
+        echo -e "\n${BLUE}[${LB}OK${BLUE}]${ORANGE} Protocol HTTP: ${WHITE}$ADDR${GREEN}:${WHITE}$I2PHTTP${NC}"
       else
-        echo -e "\n${RED}[${WHITE}OK${RED}]${P} i2pd: ${RED}not active${NC}"
+        echo -e "\n${RED}[${WHITE}OK${RED}]${P} I2P proxy: ${RED}not active${NC}"
       fi
 
       shift
@@ -935,7 +932,7 @@ if [[ $# -gt 0 ]]; then
     --* | -* | *)
       mode=10
 
-      echo -e "\n${RED}[${WHITE}-${RED}] Error: no option ${YELLOW}'$1'${RED} found, try ${ORANGE}'archnon --help'${NC}"
+      echo -e "\n${RED}[${WHITE}-${RED}] Error: invalid option ${YELLOW}'$1'${RED}, try ${ORANGE}'archnon --help'${NC}\n"
 
       exit 1
 
