@@ -37,7 +37,7 @@ OWNER='@archnon-project (github.com)'
 REPO_CLEAR='https://github.com/archnon-project/anon-scripts'
 ARCHNON_VERSION='4.0.1'
 LAST_UPDATE="11/19/2026"
-REPO_ONION='(unavailable since $LAST_UPDATE)'
+REPO_ONION="(unavailable since $LAST_UPDATE)"
 
 version(){
 echo -e "\n
