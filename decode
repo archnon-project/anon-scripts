@@ -6,9 +6,9 @@ SHOW_HASH="yes"
 
 trap 'echo -e "\n\n\e[91mCancelled by user\e[0m\n" && exit $?' 'SIGINT'
 
-decrypt() {
+decode_word() {
 
-  echo -e "\n\e\e[94m[\e[97m*\e[94m]\e[97m Encryption Algorithm:\e[93m $ALGORITHM\e[0m\n"
+  echo -e "\n\e\e[94m[\e[97m*\e[94m]\e[97m Encode Algorithm:\e[93m $ALGORITHM\e[0m\n"
 
   if [[ "$INTERACTIVE" == "yes" ]]; then
 
@@ -98,7 +98,7 @@ if [[ $# -gt 0 ]]; then
       echo -e "\n\e[93musage: \e[92m$0 \e[93m[\e[97mOPTION\e[93m]
   
   \e[97moptions:
-        \e[94m--algorithm\e[97m|\e[94m-A\e[97m: Use an specific binary/algorithm, e.g 'base64'.\e[0m
+        \e[94m--algorithm\e[97m|\e[94m-A\e[97m: Use an specific encode binary, e.g 'base64'.\e[0m
         \e[94m--input\e[97m|\e[94m-I\e[97m: Parse an specific string or file, e.g 'hello world' or '/path/to/file'.\e[0m
         \e[94m--output\e[97m|\e[94m-O\e[97m: Write the hash to an specific file.\e[0m
         \e[94m--help\e[97m|\e[94m-h\e[97m: Print manual and exit.\e[0m
@@ -117,7 +117,7 @@ if [[ $# -gt 0 ]]; then
       ;;
     esac
   done
-  decrypt
+  decode_word
 else
-  decrypt
+  decode_word
 fi
