@@ -2,7 +2,7 @@
 
 ################################################################################################################
 #                                                                                                              #
-# SATURN - Tool for managing things like MAC changing or system interfaces easly                               #
+# SATURN - Tool for manage MAC addr.                                                                           #
 # CODED BY: archnon@protonmail.com                                                                             #
 #                                                                                                              #
 ################################################################################################################
@@ -90,10 +90,7 @@ echo -e "${YELLOW}███▄▄ ██▀██  ██   ██ ██ ██
 echo -e "${YELLOW}▄▄██▀ ██▀██  ██   ▀███▀ ██ ██ ██ ▀██ "
 echo -e "${YELLOW}                                     "
 
-echo -e "\e[94m ╔══════════════════════════════════╗
- ║ \e[92mlazy tool for interfaces and MAC\e[94m ║
- ╚══════════════════════════════════╝\e[0m"
-echo -e "\e[97m Developed By: \e[95m@strxint\e[97m\e[0m"
+echo -e "\e[97m Developed By: \e[95m@archnon-project\e[97m\e[0m"
 
 usage() {
   echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${P}saturn ${NC}<${GREEN}COMMAND${NC}> ${NC}<${GREEN}OPTIONS${NC}>${NC}"
