@@ -599,12 +599,12 @@ stop() {
 
   if ! pgrep -x tor >/dev/null 2>&1 || ! pgrep -a i2pd >/dev/null 2>&1; then
 
-    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} All proxies were stopped${NC}\n"
+    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} System is back to it's normal state${NC}\n"
     exit 0
 
   else
 
-    echo -e "\n${RED}[${WHITE}X${RED}] Tor/i2p runs, try again${NC}\n"
+    echo -e "\n${RED}[${WHITE}X${RED}] Error: Found active proxy, try again${NC}\n"
     exit 1
 
   fi
