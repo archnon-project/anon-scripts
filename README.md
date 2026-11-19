@@ -24,7 +24,7 @@
   git clone https://github.com/archnon-project/anon-scripts/
 ```
 
-2. Move inside the main directory:
+2. Change your current position to inside the main directory:
 
 ```bash
   cd anon-scripts
