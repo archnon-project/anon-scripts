@@ -40,7 +40,7 @@ LAST_UPDATE="11/19/2026"
 REPO_ONION="(unavailable since $LAST_UPDATE)"
 
 version(){
-echo -ne "\n
+echo -e "
 \e[97m[   \e[92mArchnon Project   \e[97m] \e[95m=>\e[97m Version: \e[94m$ARCHNON_VERSION (\e[93m$LAST_UPDATE\e[94m)\e[0m
 
 \e[96mCurrent Binary: \e[92m$0\e[0m
