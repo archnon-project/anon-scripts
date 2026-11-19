@@ -6,9 +6,9 @@ SHOW_HASH="yes"
 
 trap 'echo -e "\n\n\e[91mCancelled by user\e[0m\n" && exit $?' 'SIGINT'
 
-encrypt() {
+encode_word() {
 
-  echo -e "\n\e[96m[\e[97m*\e[96m]\e[97m Encryption Algorithm: \e[93m$ALGORITHM\e[0m\n"
+  echo -e "\n\e[96m[\e[97m*\e[96m]\e[97m Encode Algorithm: \e[93m$ALGORITHM\e[0m\n"
 
   if [[ "$INTERACTIVE" == "yes" ]]; then
     read -e -p $'\n\e[93m[\e[97m!\e[93m]\e[97m Input:\e[95m ' W $W
@@ -98,7 +98,7 @@ if [[ $# -gt 0 ]]; then
  
   \e[97moptions:
 
-    \e[96m--algorithm\e[97m|\e[96m-a\e[97m: Set specific binary, e.g 'sha512sum'.
+    \e[96m--algorithm\e[97m|\e[96m-a\e[97m: Set specific encode binary, e.g 'base64'.
     \e[96m--input\e[97m|\e[96m-i\e[97m: Set specific file/string, e.g 'hello world' or '/path/to/file'.
     \e[96m--output\e[97m|\e[96m-o\e[97m: Write the output to a file.
     \e[96m--help\e[97m|\e[96m-h\e[97m: Print manual and exit
@@ -116,7 +116,7 @@ if [[ $# -gt 0 ]]; then
       ;;
     esac
   done
-  encrypt
+  encode_word
 else
-  encrypt
+  encode_word
 fi
