@@ -1,14 +1,12 @@
 #!/bin/bash
 
 ##################################################################################################################################
-# archnon - bash based privacy tool.                                                                                            #
-# Based in: bash.                                                                                                                #
-# Requires: netcat-openbsd curl tor nftables procps networkmanager iproute2 coreutils util-linux bash e2fsprogs i2pd             #
+# archnon - Fast and lightweight privacy tool for tor, i2pd on Linux.                                                            #
 # Version: 4.0.0                                                                                                                 #
-# Dev: archnon@protonmail.com                                                                                                    #
+# Creator: @archnon-project (github.com)                                                                                         #
 ##################################################################################################################################
 ####################################################################
-# Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #
+# Copyright (c) 2026 Archnon Project. All Rights Reserved.         #
 ####################################################################
 
 # <-- colors -->
@@ -31,21 +29,28 @@ WHITE="\e[97m"
 
 NC="\e[0m"
 
-VERSION='4.0.0'
-COPYRIGHT='# Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #'
-OWNER='archnon@protonmail.com'
+BIN_VERSION='4.0.0'
+ARCHNON_VERSION='4.0.1'
+LAST_UPDATE='11/19/2026'
+COPYRIGHT='# Copyright (c) 2026 Archnon Project. All Rights Reserved.  #'
+CREATOR='@archnon-project (github.com)'
 REPO_CLEAR='https://github.com/archnon-project/anon-scripts'
-REPO_ONION='(not available $DATE)'
+REPO_ONION="(unavailable since $LAST_UPDATE)"
 
 version(){
 echo -e "\n
-	 \e[96mProgram: \e[92m$0\e[0m
+     \e[97m[   \e[92mArchnon Project   \e[97m]\e[95m => \e[97mVersion: \e[94m$ARCHNON_VERSION (\e[93m$LAST_UPDATE\e[94m)\e[0
 	 
-	 \e[96mVersion: \e[92m$VERSION\e[0m
-	 
+     \e[96mCurrent Binary: \e[92m$0\e[0m
+	 \e[96mCurrent Binary Version: \e[92m$BIN_VERSION\e[0m
+
+	 \e[97m[\e[92m   Copyright\e[97m   ]
+
 	 \e[96mCopyright: \e[92m$COPYRIGHT\e[0m
-	 \e[96mOwner & mantainer: \e[92m$OWNER\e[0m
-	 
+	 \e[96mCreator: \e[92m$CREATOR\e[0m
+
+	 \e[97m[   \e[92mGit Repositories\e[97m   ]
+
 	 \e[96mRepo Clearnet: \e[92m$REPO_CLEAR\e[0m
 	 \e[96mRepo Onion: \e[92m$REPO_ONION\e[0m\n"
 exit $?
@@ -151,8 +156,8 @@ echo -e "██▄▄██ ██▄█▄ ██▀▀▀ ██▄██ █�
 echo -e "██  ██ ██ ██ ▀████ ██ ██ ██ ▀██ ▀███▀ ██ ▀██   "
 echo -e "                                               \e[0m"
 
-echo -e "\e[97m[*] Version: \e[92m$VERSION\e[0m"
-echo -e "\e[97m[*] Developed By: \e[95marchnon@protonmail.com, @strxint\e[0m"
+echo -e "\e[97m[*] Version: \e[92m$BIN_VERSION\e[0m"
+echo -e "\e[97m[*] Created By: \e[95m$CREATOR\e[0m"
 
 # Service Managers && Boot Automation
 
