@@ -458,12 +458,12 @@ EOT
 
     sleep 1
 
-    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Tor/i2p Runs${NC}\n"
+    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} All proxies are active${NC}\n"
 
   else
     sleep 1
 
-    echo -e "\n${RED}[${WHITE}-${RED}] Error: Tor/i2p not Runs${NC}\n"
+    echo -e "\n${RED}[${WHITE}-${RED}] Error: couldn't start any proxy${NC}\n"
     exit 1
   fi
 }
@@ -555,7 +555,7 @@ EOT
 stop() {
 
   if ! pgrep -a i2pd >/dev/null 2>&1 && ! pgrep -x tor >/dev/null 2>&1; then
-    echo -e "\n${RED}[${WHITE}-${RED}] Error: No active Tor/i2p${NC}\n"
+    echo -e "\n${RED}[${WHITE}-${RED}] Error: Ain't no proxy runnin', instead use '--start'${NC}\n"
     exit 1
   fi
 
@@ -599,12 +599,12 @@ stop() {
 
   if ! pgrep -x tor >/dev/null 2>&1 || ! pgrep -a i2pd >/dev/null 2>&1; then
 
-    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Tor/i2p not Runs${NC}\n"
+    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} All proxies were stopped${NC}\n"
     exit 0
 
   else
 
-    echo -e "\n${RED}[${WHITE}X${RED}] Tor/i2p Runs, try again${NC}\n"
+    echo -e "\n${RED}[${WHITE}X${RED}] Tor/i2p runs, try again${NC}\n"
     exit 1
 
   fi
@@ -674,14 +674,14 @@ if [[ $# -gt 0 ]]; then
       if pgrep -x tor >/dev/null 2>&1; then
 
         if echo -e "AUTHENTICATE \"\"\nSIGNAL NEWNYM\nQUIT" | nc $ADDR $CONTROL >/dev/null 2>&1; then
-          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Built new circuit${NC}\n"
+          echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} New circuit was built${NC}\n"
         else
-          echo -e "\n${RED}[${WHITE}-${RED}] Error: no IP changed${NC}\n"
+          echo -e "\n${RED}[${WHITE}-${RED}] Error: couldn't request new ip${NC}\n"
         fi
 
       else
 
-        echo -e "\n${RED}[${WHITE}-${RED}] Tor/i2p not runs, instead use '--start'${NC}\n" # i miss you archnon
+        echo -e "\n${RED}[${WHITE}-${RED}] Error: Ain't no proxy runnin', instead use '--start'${NC}\n"
         exit 1
 
       fi
