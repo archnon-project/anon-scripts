@@ -67,7 +67,7 @@ if [[ $# -gt 0 ]]; then
         echo -e "\n\e[91musage: \e[93m$0 -A <algorithm>\e[0m\n"
         exit 1
       elif ! command -v $ALGORITHM >/dev/null 2>&1; then
-        echo -e "\n\e[91mcommand not found: \e[95m$ALGORITHM\e[0m\n"
+        echo -e "\n\e[91m[x] command not found: \e[95m$ALGORITHM\e[0m\n"
         exit 1
       fi
 
