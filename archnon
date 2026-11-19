@@ -169,7 +169,7 @@ createsv() {
     touch /etc/systemd/system/archnon.service >/dev/null 2>&1
     cat <<EOT >/etc/systemd/system/archnon.service
 [Unit]
-Description=Archnon Anonymous
+Description=Archnon Privacy
 
 [Service]
 Type=forking
@@ -217,10 +217,10 @@ EOT
 
 ##################### variables #########################
 # <- Trusted Section ->
-# Default: 9.9.9.9 (quad9), Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36
+# Default: 9.9.9.9 (quad9, https://dns.quad9.net/dns-query), Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/160.0.0.0 Safari/537.36
 
-TRUSTED=9.9.9.9
-user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36'
+TRUSTED=9.9.9.9 # = https://dns.quad9.net/dns-query
+user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/160.0.0.0 Safari/537.36'
 
 # <-- Address To Bind -->
 # Default: 127.0.0.1(loopback/lo/localhost) #
@@ -458,12 +458,12 @@ EOT
 
     sleep 1
 
-    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Tor/i2p Runs${NC}"
+    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Tor/i2p Runs${NC}\n"
 
   else
     sleep 1
 
-    echo -e "\n${RED}[${WHITE}-${RED}] Error: Tor/i2p not Runs${NC}"
+    echo -e "\n${RED}[${WHITE}-${RED}] Error: Tor/i2p not Runs${NC}\n"
     exit 1
   fi
 }
@@ -599,12 +599,12 @@ stop() {
 
   if ! pgrep -x tor >/dev/null 2>&1 || ! pgrep -a i2pd >/dev/null 2>&1; then
 
-    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Tor/i2p not Runs${NC}"
+    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Tor/i2p not Runs${NC}\n"
     exit 0
 
   else
 
-    echo -e "\n${RED}[${WHITE}X${RED}] Tor/i2p Runs, try again${NC}"
+    echo -e "\n${RED}[${WHITE}X${RED}] Tor/i2p Runs, try again${NC}\n"
     exit 1
 
   fi
