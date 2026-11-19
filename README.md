@@ -1,7 +1,6 @@
 
 # ***Anon-Scripts v4.0.1***
 - Copyright (c) 2026 Archnon Project. All Rights Reserved.
-**- Privacy and anonymity scripts for Linux. Works for systemd, runit and open-rc. Includes i2pd, tor and nftables.**
 
 ## ***Features***
 
