@@ -1,68 +1,47 @@
 
-# ***Tunnels-scripts v4.0.0***
+# ***Anon-Scripts v4.0.0***
 
-**-> Privacy and anonymity focused scripts for Linux <-**
+**-> Privacy and anonymity scripts for Linux. Works for systemd, runit and open-rc. Includes i2pd, tor and nftables. <-**
 
 ## ***Features***
 
-- Protocols: Tor, i2pd.
-- Secure configuration: torrc, archnon.nft.
+- Proxies: Tor and i2pd.
 - Firewall: nftables.
-- MACs script: saturn.
-- Boot services: systemd, runit, open-rc.
-- User friendly scripts.
-- Easy to mount and use.
-- 100% bash code.
-- Dependencies handled by: apt, pacman, dnf, yum, apk, zypper, emerge, xbps-install.
-- Anonymous DNS script: neptune.
-- Support for custom Torrc: uranus.
+- Supported Systems for service: systemd, runit, open-rc.
+- Supported Package managers: apt, pacman, dnf, yum, apk, zypper, emerge, xbps-install.
+- Number of scripts: 9.
+- Easy to use and dynamic.
 
-## ***Authors***
+## ***Creator***
 
-- [@strxint](https://www.github.com/strxint) (archnon@protonmail.com)
+- [@archnon-project](https://www.github.com/archnon-project) (archnon@protonmail.com)
 
+## ***Installation (can copy and paste to terminal)***
 
-## ***Extra***
-
-- Firewall is root only, same with services.
-- Scripts will not support s6 for boot services.
-
-## ***Installation***
-
-Clone repo
+1. Clone this GitHub repository, right from your terminal:
 
 ```bash
-  git clone https://github.com/strxint/tunnels-scripts
+  git clone https://github.com/archnon-project/anon-scripts/
 ```
 
-Get inside main folder
+2. Move inside the main directory:
 
 ```bash
-  cd tunnels-scripts
+  cd anon-scripts
 ```
 
-Ensure root and exec permissions
+3. Set right executable permissions to all files inside it:
 
 ```bash
-  command -v bash || echo “missing bash, install it”
-  sudo chmod +x * || doas chmod +x *
+   su && chmod +x * || chmod +x *
 ```
 
-Run any script as root
+4. Run one of the scripts and let it handle all needed packages:
 
 ```bash
-  sudo ./archnon || doas ./archnon
+  ./archnon # or whatever
 ```
 
 ## ***License***
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/) 
 * [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)
-
-
-## ***Acknowledgements***
-
- - [Tor Project](https://www.torproject.org/)
- - [I2P - The Invisible Internet Protocol](https://i2p.net/en/)
- - [Bash - GNU Project](https://www.gnu.org/software/bash/)
- - [netfilter/iptables project](https://www.nftables.org/)
- - [curl](https://curl.se/)
