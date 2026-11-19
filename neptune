@@ -34,8 +34,8 @@ NC="\e[0m"
 VERSION='4.0.0'
 COPYRIGHT='# Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #'
 OWNER='archnon@protonmail.com'
-REPO_CLEAR='https://github.com/strxint/tunnels-scripts'
-REPO_ONION='https://it7otdanqu7ktntxzm427cba6i53w6wlanlh23v5i3siqmos47pzhvyd.onion/strxint/tunnels-scripts'
+REPO_CLEAR='https://github.com/archnon-project/anon-scripts'
+REPO_ONION='(not available $DATE)'
 
 version(){
 echo -e "\n
@@ -147,10 +147,10 @@ while [ $# -gt 0 ]; do
     url=$2
 
     if [ -z $url ]; then
-
+	  
       echo -e "\n${RED}[${WHITE}X${RED}] Missing an url for resolve${NC}"
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}neptune ${P}--url ${YELLOW}<${NC}url${YELLOW}>${NC}\n"
-      exit 1
+	  exit 1
 
     else
 
@@ -167,7 +167,12 @@ while [ $# -gt 0 ]; do
       sleep 1
 
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Address: \e[93m$SOCKS5${NC}\n"
+
+      sleep 1
+
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Mode: \e[93m$PROXY_MODE${NC}\n"
+
+      sleep 1
 
       [[ $VERBOSE == "yes" ]] && cmd="curl --socks5-hostname $SOCKS5 --url $url -v -s"
 
@@ -178,7 +183,9 @@ while [ $# -gt 0 ]; do
       [[ -z $CURL_PARAMS ]] && CMD="$cmd"
 
       echo -e "\n\e[96moutput ==>\e[0m $($CMD)\n" || echo -e "\n${RED}[${WHITE}X${RED}] Could not resolv: ${ORANGE}'$url'${NC}\n"
-    
+      
+      sleep 1
+
     fi
 
     shift 2
@@ -214,10 +221,17 @@ while [ $# -gt 0 ]; do
 
 
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Address: \e[93m$PROXY${NC}\n"
+
+      sleep 1
+
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Mode: \e[93m$PROXY_MODE${NC}\n"
-                
+
+      sleep 1
+
       echo -e "\n\e[96moutput ==>\e[0m $($CMD)\n" || echo -e "\n${RED}[${WHITE}X${RED}] Could not resolv: ${ORANGE}'$url'${NC}\n"
-    
+
+      sleep 1
+
     fi
 
     shift 3
@@ -232,9 +246,11 @@ while [ $# -gt 0 ]; do
     fi
 
     if [ -z $addr ]; then
+      
       echo -e "\n${RED}[${WHITE}X${RED}] Missing the address to set, e.g: $ADDR${NC}\n"
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}neptune ${BLUE}--set-dns ${YELLOW}<${BLUE}addr${YELLOW}>${NC}\n"
       exit 1
+
     else
 
       chattr -i /etc/resolv.conf >/dev/null 2>&1
@@ -242,6 +258,8 @@ while [ $# -gt 0 ]; do
       touch /etc/resolv.conf >/dev/null 2>&1
 
       echo "nameserver $addr" | tee /etc/resolv.conf >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} New dns address: ${GREEN}$addr${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Could not set dns address${NC}\n"
+
+      sleep 1
 
     fi
 
@@ -260,7 +278,7 @@ while [ $# -gt 0 ]; do
     CURL_PARAMS=$2
 
     if [[ -z $CURL_PARAMS ]]; then
-	echo -e "\n\e[91mError: '--curl-params' without params.\e[0m\n"
+	echo -e "\n\e[91mError: '--curl-params' without actually params.\e[0m\n"
 	exit 1
     fi
 
@@ -272,7 +290,7 @@ while [ $# -gt 0 ]; do
     PROXY_APP=$2
     
     if [[ -z $PROXY_APP ]]; then
-	    echo -e "\n\e[91mError: '--proxy-app' without app\e[0m\n"
+	    echo -e "\n\e[91mError: '--proxy-app' without an app\e[0m\n"
 	    exit 1
     else
 	    proxychains4 "$PROXY_APP"
@@ -285,6 +303,9 @@ while [ $# -gt 0 ]; do
 
     --version)
     version
+
+    sleep 1
+
     shift 1
 
     ;;
@@ -300,6 +321,8 @@ while [ $# -gt 0 ]; do
   --* | -* | *)
 
     echo -e "\n\e[96moutput ==> \e[0m$(curl --socks5-hostname "$ADDR:$PORT" --url $1 -s)\n"
+
+	sleep 1
 
     exit $?
 
