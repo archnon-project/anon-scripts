@@ -144,7 +144,7 @@ echo -e "${BLUE}▄▄  ▄▄ ▄▄▄▄▄ ▄▄▄▄ ▄▄▄▄▄▄ �
 echo -e "${BLUE}███▄██ ██▄▄  ██▄█▀  ██   ██ ██ ███▄██ ██▄▄  "
 echo -e "${BLUE}██ ▀██ ██▄▄▄ ██     ██   ▀███▀ ██ ▀██ ██▄▄▄ "
 echo -e "${BLUE}                                            "
-echo -e "\n\e[97m[*] Created By: @archnon-project\e[95m\e[0m"
+echo -e "\n\e[97m[*] Created By: \e[95m@archnon-project\e[95m\e[0m"
 
 
 if [[ $# -gt 0 ]]; then
