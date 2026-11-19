@@ -1,5 +1,5 @@
 
-# ***Anon-Scripts v4.0.0***
+# ***Anon-Scripts v4.0.1***
 
 **-> Privacy and anonymity scripts for Linux. Works for systemd, runit and open-rc. Includes i2pd, tor and nftables. <-**
 
