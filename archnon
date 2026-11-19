@@ -39,20 +39,20 @@ REPO_ONION="(unavailable since $LAST_UPDATE)"
 
 version(){
 echo -e "\n
-     \e[97m[   \e[92mArchnon Project   \e[97m]\e[95m => \e[97mVersion: \e[94m$ARCHNON_VERSION (\e[93m$LAST_UPDATE\e[94m)\e[0
+\e[97m[   \e[92mArchnon Project   \e[97m]\e[95m => \e[97mVersion: \e[94m$ARCHNON_VERSION (\e[93m$LAST_UPDATE\e[94m)\e[0
 	 
-     \e[96mCurrent Binary: \e[92m$0\e[0m
-	 \e[96mCurrent Binary Version: \e[92m$BIN_VERSION\e[0m
+\e[96mCurrent Binary: \e[92m$0\e[0m
+\e[96mCurrent Binary Version: \e[92m$BIN_VERSION\e[0m
 
-	 \e[97m[\e[92m   Copyright\e[97m   ]
+\e[97m[\e[92m   Copyright\e[97m   ]
 
-	 \e[96mCopyright: \e[92m$COPYRIGHT\e[0m
-	 \e[96mCreator: \e[92m$CREATOR\e[0m
+\e[96mCopyright: \e[92m$COPYRIGHT\e[0m
+\e[96mCreator: \e[92m$CREATOR\e[0m
 
-	 \e[97m[   \e[92mGit Repositories\e[97m   ]
+\e[97m[   \e[92mGit Repositories\e[97m   ]
 
-	 \e[96mRepo Clearnet: \e[92m$REPO_CLEAR\e[0m
-	 \e[96mRepo Onion: \e[92m$REPO_ONION\e[0m\n"
+\e[96mRepo Clearnet: \e[92m$REPO_CLEAR\e[0m
+\e[96mRepo Onion: \e[92m$REPO_ONION\e[0m\n"
 exit $?
 }
 
