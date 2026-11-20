@@ -241,9 +241,9 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n"
       exit 0
     else
+      systemctl disable $label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
       chattr -i /etc/systemd/system/$label.service >/dev/null 2>&1
       rm -rf /etc/systemd/system/$label.service >/dev/null 2>&1
-      systemctl disable $label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
       exit 0
     fi
   fi
@@ -275,9 +275,9 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n"
       exit 0
     else
+      rc-update del $label default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
       chattr -i /etc/init.d/$label >/dev/null 2>&1
       rm -rf /etc/init.d/$label >/dev/null 2>&1
-      rc-update del $label default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
       exit 0
     fi
   fi
@@ -358,8 +358,6 @@ while [ $# -gt 0 ]; do
       echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
-
-    createsv
 
     disable
 
