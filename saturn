@@ -406,8 +406,20 @@ while [ $# -gt 0 ]; do
       echo -e "\n${RED}[${WHITE}X${RED}] Missing background script: ${ORANGE}'mars'${NC}\n"
       exit 1
     else
-      mars $dev $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Changing MAC as a bg PID${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Couldn't launch background pid${NC}\n"
-      dlist
+      if pgrep -a mars >/dev/null 2>&1; then
+         MARS_PID=$(echo -e "\e[93m$(pgrep mars)\e[0m")
+		 read -e -p $"[*] Found pid for mars($MARS_PID), do you wish to launch another separated process (y/n)? => " ANSWER $ANSWER
+
+         if [[ "$ANSWER" == "y|yes|Y|YES" ]]; then
+			 mars $dev $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Lanched a background change for '$dev'${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Couldn't launch background pid${NC}\n"
+         elif [[ "$ANSWER" == "n|no|N|NO" ]]; then
+               exit $?
+         else
+               exit $?
+         fi
+      else
+         mars $dev $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Lanched a background change for '$dev'${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Couldn't launch background pid${NC}\n"
+      fi
       exit 0
     fi
 
