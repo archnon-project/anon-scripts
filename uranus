@@ -340,7 +340,7 @@ EOT
     fi
 
     if ! [ -f $TORRC ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Error: file doesn't even exists \e[93m'$TORRC'${NC}
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: file doesn't even exists \e[93m'$TORRC'${NC}"
       exit 1
     fi
 
