@@ -2,14 +2,23 @@
 
 ################################################################################################################
 #                                                                                                              #
-# SATURN - Tool for manage MAC addr.                                                                           #
-# CODED BY: archnon@protonmail.com                                                                             #
+# SATURN - Simple Tool for MAC addr.                                                                           #
+# CODED BY: archnon-project (github.com)                                                                       #
 #                                                                                                              #
 ################################################################################################################
+####################################################################
+# Copyright (c) 2026 Archnon Project. All Rights Reserved.         #
+####################################################################
 
-####################################################################
-# Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #
-####################################################################
+# Env
+
+BIN_VERSION='4.0.0'
+ARCHNON_VERSION='4.0.1'
+LAST_UPDATE='11/20/2026'
+COPYRIGHT='Copyright (c) 2026 Archnon Project. All Rights Reserved.'
+CREATOR='@archnon-project (github.com)'
+REPO_CLEAR="https://github.com/archnon-project/anon-scripts"
+REPO_ONION="(unavailable since $LAST_UPDATE)"
 
 ##### colors #####
 
@@ -84,23 +93,24 @@ fi
 ##### Banner #####
 
 echo -e "${YELLOW}                                     "
-echo -e "${YELLOW}                                     "
 echo -e "${YELLOW} ▄▄▄▄  ▄▄▄ ▄▄▄▄▄▄ ▄▄ ▄▄ ▄▄▄▄  ▄▄  ▄▄ "
 echo -e "${YELLOW}███▄▄ ██▀██  ██   ██ ██ ██▄█▄ ███▄██ "
 echo -e "${YELLOW}▄▄██▀ ██▀██  ██   ▀███▀ ██ ██ ██ ▀██ "
 echo -e "${YELLOW}                                     "
 
-echo -e "\e[97m Developed By: \e[95m@archnon-project\e[97m\e[0m"
+echo -e "\e[97m Created By: \e[95m$CREATOR\e[97m\e[0m"
 
 usage() {
   echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${P}saturn ${NC}<${GREEN}COMMAND${NC}> ${NC}<${GREEN}OPTIONS${NC}>${NC}"
-  echo -e "\n${BLUE}[${ORANGE}1${BLUE}] ${LB}change: ${WHITE}change MAC${NC}"
-  echo -e "\n${BLUE}[${ORANGE}2${BLUE}] ${LB}enable: ${WHITE}enable change MAC on boot${NC}"
-  echo -e "\n${BLUE}[${ORANGE}3${BLUE}] ${LB}disable: ${WHITE}disable ${GREEN}change MAC on boot${NC}"
-  echo -e "\n${BLUE}[${ORANGE}4${BLUE}] ${LB}background ${NC}<${P}args${NC}>: ${WHITE}change MAC in bg${NC}"
-  echo -e "\n${BLUE}[${ORANGE}5${BLUE}] ${LB}restore: ${WHITE}restore MAC${NC}"
-  echo -e "\n${BLUE}[${ORANGE}6${BLUE}] ${LB}list: ${WHITE}list devices${NC}"
-  echo -e "\n${BLUE}[${ORANGE}7${BLUE}] ${LB}help: ${WHITE}print manual${NC}"
+  echo -e "\n${BLUE}[${ORANGE}1${BLUE}] ${LB}--change-mac ${NC}<${P}interface${NC}>: ${WHITE}Change MAC of interface.${NC}"
+  echo -e "\n${BLUE}[${ORANGE}2${BLUE}] ${LB}--enable: ${WHITE}Allow change MAC of interface on boot${NC}"
+  echo -e "\n${BLUE}[${ORANGE}3${BLUE}] ${LB}--disable: ${WHITE}Disable ${GREEN}change MAC of interface on boot${NC}"
+  echo -e "\n${BLUE}[${ORANGE}4${BLUE}] ${LB}--bg-change ${NC}<${P}interface${NC}>: ${WHITE}Change MAC of interface in background.${NC}"
+  echo -e "\n${BLUE}[${ORANGE}5${BLUE}] ${LB}--restore-mac: ${WHITE}Restore MAC of interface.${NC}"
+  echo -e "\n${BLUE}[${ORANGE}6${BLUE}] ${LB}--list-iface: ${WHITE}List available interfaces.${NC}"
+
+  echo -e "\n${BLUE}[${ORANGE}7${BLUE}] ${LB}--version: ${WHITE}Print version of binary${NC}"
+  echo -e "\n${BLUE}[${ORANGE}7${BLUE}] ${LB}--help: ${WHITE}Print manual${NC}"
 }
 
 change() {
@@ -126,7 +136,7 @@ createsv() {
   if [ ! -f /etc/systemd/system/$label.service ] && command -v systemctl >/dev/null 2>&1; then
     touch /etc/systemd/system/$label.service
 
-    echo -e "\n[Unit]\nDescription=$label $device\n[Service]\nType=forking\nExecStart=$label change $device\nRemainAfterExit=yes\nUser=root\n[Install]\nWantedBy=multi-user.target" >>/etc/systemd/system/$label.service
+    echo -e "\n[Unit]\nDescription=$label $device\n[Service]\nType=forking\nExecStart=/usr/local/bin/$label --change-mac $device\nRemainAfterExit=yes\nUser=root\n[Install]\nWantedBy=multi-user.target" >>/etc/systemd/system/$label.service
 
   fi
 
@@ -134,14 +144,14 @@ createsv() {
     mkdir -p /etc/sv/$label/
     touch /etc/sv/$label/run
 
-    echo -e "#!/bin/sh\nexec $label change $device" >>/etc/sv/$label/run
+    echo -e "#!/bin/sh\nexec /usr/local/bin/$label --change-mac $device" >>/etc/sv/$label/run
     chmod +x /etc/sv/$label/run
   fi
 
   if [ ! -f /etc/init.d/$label ] && command -v rc-service >/dev/null 2>&1; then
     touch /etc/init.d/$label
 
-    echo "#!/sbin/openrc-run\nname=$label $device\ncommand="$label"\ncommand_args="change $device"\ncommand_background=true\npidfile="/run/${RC_SVCNAME}.pid"\ndepend() {\n    need net\n}" >>/etc/init.d/$label
+    echo "#!/sbin/openrc-run\nname=$label $device\ncommand="/usr/local/bin/$label"\ncommand_args="--change-mac $device"\ncommand_background=true\npidfile="/run/${RC_SVCNAME}.pid"\ndepend() {\n    need net\n}" >>/etc/init.d/$label
 
     chmod +x /etc/init.d/$label >/dev/null 2>&1
   fi
@@ -244,7 +254,7 @@ dlist() {
 while [ $# -gt 0 ]; do
   case $1 in
 
-  change)
+  --change-mac)
     mode=1
     device=$2
 
@@ -254,24 +264,24 @@ while [ $# -gt 0 ]; do
     fi
 
     if [ -z $device ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Missing a device${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an interface.${NC}"
       exit 1
     fi
 
     if ! macchanger -s "$device" >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such device: ${ORANGE}'$device'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}"
       exit 1
     fi
 
-    change && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} $(macchanger -s $device | grep Current)${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] no new MAC${NC}"
+    change && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} $(macchanger -s $device | grep Current)${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Error: MAC not changed${NC}"
     exit 1
 
-    shift
+    shift 2
     break
 
     ;;
 
-  enable)
+  --enable)
     mode=2
     device=$2
 
@@ -281,12 +291,12 @@ while [ $# -gt 0 ]; do
     fi
 
     if [ -z $device ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Missing a device${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an interface.${NC}"
       exit 1
     fi
 
     if ! macchanger -s $device >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such device: ${ORANGE}'$device'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}"
       exit 1
     fi
 
@@ -296,14 +306,13 @@ while [ $# -gt 0 ]; do
 
     exit 0
 
-    shift
+    shift 2
     break
 
     ;;
 
-  disable)
+  --disable)
     mode=3
-    device=$3
 
     if [ $EUID -ne 0 ]; then
       echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
@@ -316,12 +325,12 @@ while [ $# -gt 0 ]; do
 
     exit 0
 
-    shift
+    shift 1
     break
 
     ;;
 
-  background)
+  --bg-change)
     mode=4
     dev=$2
     sec=$3
@@ -332,12 +341,12 @@ while [ $# -gt 0 ]; do
     fi
 
     if [[ -z "$dev" || -z "$sec" ]]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] usage: saturn background ${NC}<${P}device> <seconds>${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] usage: saturn --bg-change ${NC}<${P}interface> <seconds>${NC}"
       exit 1
     fi
 
     if ! macchanger -s $device >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such device: ${ORANGE}'$device'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}"
       exit 1
     fi
 
@@ -345,17 +354,17 @@ while [ $# -gt 0 ]; do
       echo -e "\n${RED}[${WHITE}X${RED}] Missing background script: ${ORANGE}'mars'${NC}"
       exit 1
     else
-      mars $device $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} launch background pid${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] launch background pid${NC}"
+      mars $device $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Changing MAC as a bg PID${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Couldn't launch background pid${NC}"
       dlist
       exit 0
     fi
 
-    shift
+    shift 3
     break
 
     ;;
 
-  restore)
+  --restore-mac)
     mode=5
     device=$2
 
@@ -366,19 +375,19 @@ while [ $# -gt 0 ]; do
 
     if [ -z $device ]; then
       usage
-      echo -e "\n${RED}[${WHITE}X${RED}] Missing device${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an interface.${NC}"
       exit 1
     fi
 
     if ! macchanger -s "$device" >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such device: ${ORANGE}'$device'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}"
       exit 1
     fi
 
-    restore && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} $(macchanger -s $device | grep Current)${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] restore MAC${NC}"
+    restore && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} $(macchanger -s $device | grep Current)${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't restore MAC${NC}"
     exit 0
 
-    shift
+    shift 2
     break
 
     ;;
@@ -387,7 +396,7 @@ while [ $# -gt 0 ]; do
     mode=6
 
     if ! ip link >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] show devices${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't show interfaces.${NC}"
       exit 1
     else
       echo -n -e "\n"
@@ -395,28 +404,35 @@ while [ $# -gt 0 ]; do
       exit 0
     fi
 
-    shift
+    shift 1
     break
 
     ;;
 
-  help)
+  --help)
     mode=6
     usage
     exit 1
 
-    shift
+    shift 1
     break
 
     ;;
 
-  --* | -* | *)
+  --version)
     mode=7
+    version
+    exit $?
+    shift 1
+    break
+    ;;
+  --* | -* | *)
+    mode=8
 
     usage
     exit 1
 
-    shift
+    shift 1
     break
 
     ;;
