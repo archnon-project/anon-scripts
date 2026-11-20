@@ -126,7 +126,7 @@ usage() {
   echo -e "\n${BLUE}[${ORANGE}3${BLUE}] ${LB}--disable: ${WHITE}Disable ${GREEN}change MAC of interface on boot${NC}"
   echo -e "\n${BLUE}[${ORANGE}4${BLUE}] ${LB}--bg-change ${NC}<${P}interface${NC}>: ${WHITE}Change MAC of interface in background.${NC}"
   echo -e "\n${BLUE}[${ORANGE}5${BLUE}] ${LB}--restore-mac: ${WHITE}Restore MAC of interface.${NC}"
-  echo -e "\n${BLUE}[${ORANGE}6${BLUE}] ${LB}--list-iface: ${WHITE}List available interfaces.${NC}"
+  echo -e "\n${BLUE}[${ORANGE}6${BLUE}] ${LB}--list-ifaces: ${WHITE}List available interfaces.${NC}"
 
   echo -e "\n${BLUE}[${ORANGE}7${BLUE}] ${LB}--version: ${WHITE}Print version of binary${NC}"
   echo -e "\n${BLUE}[${ORANGE}7${BLUE}] ${LB}--help: ${WHITE}Print manual${NC}\n"
@@ -190,7 +190,7 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
 
     if systemctl is-enabled $label >/dev/null 2>&1; then
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Enabled service for '$device'${NC}\n"
-      exit 1
+      exit 0
     else
       systemctl enable $label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot for '$device'${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't enable service (unknown)${NC}\n"
     fi
@@ -208,7 +208,7 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
 
     if ls -l $RSDIR/$label/ >/dev/null 2>&1; then
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Enabled service for '$device'${NC}"
-      exit 1
+      exit 0
     else
       ln -s /etc/sv/$label $RSDIR >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot for '$device'${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't enable service (unknown)${NC}\n"
     fi
@@ -218,7 +218,7 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
 
     if rc-update | grep -IE "$label" >/dev/null 2>&1; then
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Enabled service for '$device'${NC}\n"
-      exit 1
+      exit 0
     else
       rc-update add $label default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot for '$device'${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't enable service (unknown)${NC}\n"
     fi
@@ -244,7 +244,7 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
       chattr -i /etc/systemd/system/$label.service >/dev/null 2>&1
       rm -rf /etc/systemd/system/$label.service >/dev/null 2>&1
       systemctl disable $label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
-      exit 1
+      exit 0
     fi
   fi
 
@@ -265,7 +265,7 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
       exit 0
     else
       rm -rf $RSDIR/$label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
-      exit 1
+      exit 0
     fi
   fi
 
@@ -278,7 +278,7 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
       chattr -i /etc/init.d/$label >/dev/null 2>&1
       rm -rf /etc/init.d/$label >/dev/null 2>&1
       rc-update del $label default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
-      exit 1
+      exit 0
     fi
   fi
 }
