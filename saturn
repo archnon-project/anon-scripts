@@ -175,7 +175,6 @@ createsv() {
     chmod +x /etc/init.d/$label >/dev/null 2>&1
   fi
 }
-createsv
 
 enable() {
 
@@ -188,6 +187,8 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
 \e[97m3. \e[92mopen-rc.\e[0m\n"
     exit 1
   fi
+
+  createsv
 
   if [ -f /etc/systemd/system/$label.service ] && command -v systemctl >/dev/null 2>&1; then
 
@@ -239,6 +240,8 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
 \e[97m3. \e[92mopen-rc.\e[0m\n"
       exit 1
   fi
+
+  createsv
 
   if [ -f /etc/systemd/system/$label.service ] && command -v systemctl >/dev/null 2>&1; then
 
