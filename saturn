@@ -178,6 +178,8 @@ createsv() {
 
 enable() {
 
+  label=saturn
+
   if ! (command -v systemctl >/dev/null 2>&1 || command -v sv >/dev/null 2>&1 || command rc-service >/dev/null 2>&1); then
 echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[0m
 \n\e[97m1. \e[92msystemd.\e[0m
@@ -226,6 +228,8 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
 }
 
 disable() {
+
+  label=saturn
 
   if ! (command -v systemctl >/dev/null 2>&1 || command -v sv >/dev/null 2>&1 || command rc-service >/dev/null 2>&1); then
 echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[0m
