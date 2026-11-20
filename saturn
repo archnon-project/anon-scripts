@@ -293,14 +293,6 @@ echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[
   fi
 }
 
-dlist() {
-  if pgrep -x mars >/dev/null 2>&1; then
-    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Active background changes: ${NC}"
-    pgrep -a mars
-    echo -e "\n"
-  fi
-}
-
 while [ $# -gt 0 ]; do
   case $1 in
 
@@ -408,11 +400,12 @@ while [ $# -gt 0 ]; do
     else
       if pgrep -a mars >/dev/null 2>&1; then
          MARS_PID=$(echo -e "\e[93m$(pgrep mars)\e[0m")
+         echo -e "\n"
 		 read -e -p $"[*] Found pid for mars($MARS_PID), do you wish to launch another separated process (y/n)? => " ANSWER $ANSWER
 
-         if [[ "$ANSWER" == "y|yes|Y|YES" ]]; then
+         if [[ "$ANSWER" == "y" ]]; then
 			 mars $dev $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Lanched a background change for '$dev'${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Couldn't launch background pid${NC}\n"
-         elif [[ "$ANSWER" == "n|no|N|NO" ]]; then
+         elif [[ "$ANSWER" == "n" ]]; then
                exit $?
          else
                exit $?
