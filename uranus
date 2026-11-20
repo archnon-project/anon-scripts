@@ -409,9 +409,9 @@ EOT
 
     echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating Archnon ...${NC}"
 
-    if git clone "$REPO_CLEAR" && cd $REPO_DIR && chmod +x * && ./uranus; then
+    if git clone "$REPO_CLEAR" && cd $REPO_DIR && chmod +x * && cp * /usr/local/bin; then
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Project is up to date ($LATEST_RELEASE)${NC}\n"
-      exit 0
+      exit $?
     else
       echo -e "\n${RED}[${WHITE}X${RED}] Couldn't update project${NC}\n"
       exit 1
@@ -430,7 +430,7 @@ EOT
     shift 1
 
     ;;
---version)
+  --version)
     mode=13
     version
     exit 1
