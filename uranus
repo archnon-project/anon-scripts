@@ -409,7 +409,10 @@ EOT
 
     echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating Archnon ...${NC}"
 
-    if git clone "$REPO_CLEAR" && cd $REPO_DIR && chmod +x * && cp * /usr/local/bin && rm -rf $REPO_DIR; then
+	rm -rf $REPO_DIR >/dev/null 2>&1
+	
+    if git clone "$REPO_CLEAR" && cd $REPO_DIR && chmod +x * && cp * /usr/local/bin; then
+	  rm -rf $REPO_DIR >/dev/null 2>&1
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Project is up to date \e[94m(\e[93m$ARCHNON_VERSION\e[97m,\e[95m $LAST_UPDATE\e[94m)${NC}\n"
       exit $?
     else
