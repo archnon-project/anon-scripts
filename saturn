@@ -155,7 +155,7 @@ createsv() {
   if [ ! -f /etc/systemd/system/$label.service ] && command -v systemctl >/dev/null 2>&1; then
     touch /etc/systemd/system/$label.service
 
-    echo -e "\n[Unit]\nDescription=$label $device\n[Service]\nType=forking\nExecStart=/usr/local/bin/$label --change-mac $device\nRemainAfterExit=yes\nUser=root\n[Install]\nWantedBy=multi-user.target" >>/etc/systemd/system/$label.service
+    echo -e "\n[Unit]\nDescription=MAC change for $device\n[Service]\nType=forking\nExecStart=/usr/local/bin/$label --change-mac $device\nRemainAfterExit=yes\nUser=root\n[Install]\nWantedBy=multi-user.target\n" >>/etc/systemd/system/$label.service
 
   fi
 
@@ -163,14 +163,14 @@ createsv() {
     mkdir -p /etc/sv/$label/
     touch /etc/sv/$label/run
 
-    echo -e "#!/bin/sh\nexec /usr/local/bin/$label --change-mac $device" >>/etc/sv/$label/run
+    echo -e "#!/bin/sh\nexec /usr/local/bin/$label --change-mac $device\n" >>/etc/sv/$label/run
     chmod +x /etc/sv/$label/run
   fi
 
   if [ ! -f /etc/init.d/$label ] && command -v rc-service >/dev/null 2>&1; then
     touch /etc/init.d/$label
 
-    echo "#!/sbin/openrc-run\nname=$label $device\ncommand="/usr/local/bin/$label"\ncommand_args="--change-mac $device"\ncommand_background=true\npidfile="/run/${RC_SVCNAME}.pid"\ndepend() {\n    need net\n}" >>/etc/init.d/$label
+    echo "#!/sbin/openrc-run\nname=$label\ncommand="/usr/local/bin/$label"\ncommand_args="--change-mac $device"\ncommand_background=true\npidfile="/run/${RC_SVCNAME}.pid"\ndepend() {\n    need net\n}\n" >>/etc/init.d/$label
 
     chmod +x /etc/init.d/$label >/dev/null 2>&1
   fi
