@@ -46,46 +46,46 @@ if ! (command -v ip >/dev/null 2>&1 && command -v macchanger >/dev/null 2>&1); t
 
   if [[ $(command -v apt) ]]; then
     if ! apt install -y ${pkgs[@]}; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}\n"
       exit 1
     fi
   elif [[ $(command -v pacman) ]]; then
     if ! pacman -Sy --noconfirm --needed --overwrite "*" ${pkgs[@]}; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}\n"
       exit 1
     fi
   elif [[ $(command -v dnf) ]]; then
     if ! dnf install -y --allowerasing ${pkgs[@]}; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}\n"
       exit 1
     fi
   elif [[ $(command -v yum) ]]; then
     if ! yum install -y ${pkgs[@]}; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}\n"
       exit 1
     fi
   elif [[ $(command -v xbps-install) ]]; then
     if ! xbps-install -Sy -f -y "*" ${pkgs[@]}; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}\n"
       exit 1
     fi
   elif [[ $(command -v zypper) ]]; then
     if ! zypper install ${pkgs[@]}; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}\n"
       exit 1
     fi
   elif [[ $(command -v apk) ]]; then
     if ! apk add --no-cache ${pkgs[@]}; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}\n"
       exit 1
     fi
   elif [[ $(command -v emerge) ]]; then
     if ! emerge -v --oneshot --keep-going ${pkgs[@]}; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'${pkgs[@]}'${NC}\n"
       exit 1
     fi
   else
-    echo -e "\n${RED}[${WHITE}X${RED}] Unsuported package manager, install: ${ORANGE}'${pkgs[@]}'${NC}"
+    echo -e "\n${RED}[${WHITE}X${RED}] Unsuported package manager, install: ${ORANGE}'${pkgs[@]}'${NC}\n"
     exit 1
   fi
 fi
@@ -98,7 +98,26 @@ echo -e "${YELLOW}███▄▄ ██▀██  ██   ██ ██ ██
 echo -e "${YELLOW}▄▄██▀ ██▀██  ██   ▀███▀ ██ ██ ██ ▀██ "
 echo -e "${YELLOW}                                     "
 
-echo -e "\e[97m Created By: \e[95m$CREATOR\e[97m\e[0m"
+echo -e "\e[97m[*] Created By: \e[95m$CREATOR\e[97m\e[0m"
+
+version(){
+echo -e "
+\e[97m[   \e[92mArchnon Project   \e[97m]\e[95m => \e[97mVersion: \e[94m$ARCHNON_VERSION (\e[93m$LAST_UPDATE\e[94m)\e[0
+	 
+\e[96mCurrent Binary: \e[92m$0\e[0m
+\e[96mCurrent Binary Version: \e[92m$BIN_VERSION\e[0m
+
+\e[97m[\e[92m   Copyright\e[97m   ]
+
+\e[96mCopyright: \e[92m$COPYRIGHT\e[0m
+\e[96mCreator: \e[92m$CREATOR\e[0m
+
+\e[97m[   \e[92mGit Repositories\e[97m   ]
+
+\e[96mRepo Clearnet: \e[92m$REPO_CLEAR\e[0m
+\e[96mRepo Onion: \e[92m$REPO_ONION\e[0m\n"
+exit $?
+}
 
 usage() {
   echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${P}saturn ${NC}<${GREEN}COMMAND${NC}> ${NC}<${GREEN}OPTIONS${NC}>${NC}"
@@ -110,7 +129,7 @@ usage() {
   echo -e "\n${BLUE}[${ORANGE}6${BLUE}] ${LB}--list-iface: ${WHITE}List available interfaces.${NC}"
 
   echo -e "\n${BLUE}[${ORANGE}7${BLUE}] ${LB}--version: ${WHITE}Print version of binary${NC}"
-  echo -e "\n${BLUE}[${ORANGE}7${BLUE}] ${LB}--help: ${WHITE}Print manual${NC}"
+  echo -e "\n${BLUE}[${ORANGE}7${BLUE}] ${LB}--help: ${WHITE}Print manual${NC}\n"
 }
 
 change() {
@@ -159,13 +178,21 @@ createsv() {
 
 enable() {
 
+  if ! (command -v systemctl >/dev/null 2>&1 || command -v sv >/dev/null 2>&1 || command rc-service >/dev/null 2>&1); then
+echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[0m
+\n\e[97m1. \e[92msystemd.\e[0m
+\e[97m2. \e[92mrunit.\e[0m
+\e[97m3. \e[92mopen-rc.\e[0m\n"
+    exit 1
+  fi
+
   if [ -f /etc/systemd/system/$label.service ] && command -v systemctl >/dev/null 2>&1; then
 
     if systemctl is-enabled $label >/dev/null 2>&1; then
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Enabled service for '$device'${NC}\n"
       exit 1
     else
-      systemctl enable $label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Program wont run on boot due to an unexcepted error${NC}"
+      systemctl enable $label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot for '$device'${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't enable service (unknown)${NC}\n"
     fi
   fi
 
@@ -180,32 +207,43 @@ enable() {
     fi
 
     if ls -l $RSDIR/$label/ >/dev/null 2>&1; then
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Enabled service for '$device'${NC}"
       exit 1
     else
-      ln -s /etc/sv/$label $RSDIR >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Program wont run on boot due to an unexcepted error${NC}"
+      ln -s /etc/sv/$label $RSDIR >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot for '$device'${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't enable service (unknown)${NC}\n"
     fi
   fi
 
   if [ -f /etc/init.d/$label ] && command -v rc-update >/dev/null 2>&1; then
 
     if rc-update | grep -IE "$label" >/dev/null 2>&1; then
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Enabled service for '$device'${NC}\n"
       exit 1
     else
-      rc-update add $label default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Program wont run on boot due to an unexcepted error${NC}"
+      rc-update add $label default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program will run on boot for '$device'${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't enable service (unknown)${NC}\n"
     fi
   fi
 }
 
 disable() {
+
+  if ! (command -v systemctl >/dev/null 2>&1 || command -v sv >/dev/null 2>&1 || command rc-service >/dev/null 2>&1); then
+echo -e "\n\e[91m[x] Error: unsupported service manager, script only runs on:\e[0m
+\n\e[97m1. \e[92msystemd.\e[0m
+\e[97m2. \e[92mrunit.\e[0m
+\e[97m3. \e[92mopen-rc.\e[0m\n"
+      exit 1
+  fi
+
   if [ -f /etc/systemd/system/$label.service ] && command -v systemctl >/dev/null 2>&1; then
 
     if ! systemctl is-enabled $label >/dev/null 2>&1; then
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n"
       exit 0
     else
-      systemctl disable $label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Program can still run on boot due to an unexcepted error${NC}"
+      chattr -i /etc/systemd/system/$label.service >/dev/null 2>&1
+      rm -rf /etc/systemd/system/$label.service >/dev/null 2>&1
+      systemctl disable $label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
       exit 1
     fi
   fi
@@ -223,10 +261,10 @@ disable() {
     fi
 
     if ! ls -l $RSDIR/$label/ >/dev/null 2>&1; then
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n"
       exit 0
     else
-      rm -rf $RSDIR/$label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Program can still run on boot due to an unexcepted error${NC}"
+      rm -rf $RSDIR/$label >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
       exit 1
     fi
   fi
@@ -234,10 +272,12 @@ disable() {
   if [ -f /etc/init.d/$label ] && command -v rc-service >/dev/null 2>&1; then
 
     if ! rc-update | grep -IE "$label" >/dev/null 2>&1; then
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n"
       exit 0
     else
-      rc-update del $label default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Program can still run on boot due to an unexcepted error${NC}"
+      chattr -i /etc/init.d/$label >/dev/null 2>&1
+      rm -rf /etc/init.d/$label >/dev/null 2>&1
+      rc-update del $label default >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Program wont run on boot${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't disable service (unknown)${NC}\n"
       exit 1
     fi
   fi
@@ -245,9 +285,9 @@ disable() {
 
 dlist() {
   if pgrep -x mars >/dev/null 2>&1; then
-    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Active PID: ${NC}"
+    echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Active background changes: ${NC}"
     pgrep -a mars
-    echo -e "\n${RED}[${YELLOW}warn${RED}] Kill: ${RED}pkill -9 mars${NC}"
+    echo -e "\n"
   fi
 }
 
@@ -259,21 +299,21 @@ while [ $# -gt 0 ]; do
     device=$2
 
     if [ $EUID -ne 0 ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
 
     if [ -z $device ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an interface.${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an interface.${NC}\n"
       exit 1
     fi
 
     if ! macchanger -s "$device" >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}\n"
       exit 1
     fi
 
-    change && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} $(macchanger -s $device | grep Current)${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Error: MAC not changed${NC}"
+    change && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} $(macchanger -s $device | grep Current)${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: MAC not changed${NC}\n"
     exit 1
 
     shift 2
@@ -286,17 +326,17 @@ while [ $# -gt 0 ]; do
     device=$2
 
     if [ $EUID -ne 0 ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
 
     if [ -z $device ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an interface.${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an interface.${NC}\n"
       exit 1
     fi
 
     if ! macchanger -s $device >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}\n"
       exit 1
     fi
 
@@ -315,7 +355,7 @@ while [ $# -gt 0 ]; do
     mode=3
 
     if [ $EUID -ne 0 ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
 
@@ -336,25 +376,25 @@ while [ $# -gt 0 ]; do
     sec=$3
 
     if [ $EUID -ne 0 ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
 
     if [[ -z "$dev" || -z "$sec" ]]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] usage: saturn --bg-change ${NC}<${P}interface> <seconds>${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] usage: saturn --bg-change ${NC}<${P}interface> <seconds>${NC}\n"
       exit 1
     fi
 
     if ! macchanger -s $device >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}\n"
       exit 1
     fi
 
     if ! command -v mars >>/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Missing background script: ${ORANGE}'mars'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Missing background script: ${ORANGE}'mars'${NC}\n"
       exit 1
     else
-      mars $device $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Changing MAC as a bg PID${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Couldn't launch background pid${NC}"
+      mars $device $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Changing MAC as a bg PID${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Couldn't launch background pid${NC}\n"
       dlist
       exit 0
     fi
@@ -369,22 +409,22 @@ while [ $# -gt 0 ]; do
     device=$2
 
     if [ $EUID -ne 0 ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
 
     if [ -z $device ]; then
       usage
-      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an interface.${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an interface.${NC}\n"
       exit 1
     fi
 
     if ! macchanger -s "$device" >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}\n"
       exit 1
     fi
 
-    restore && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} $(macchanger -s $device | grep Current)${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't restore MAC${NC}"
+    restore && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} $(macchanger -s $device | grep Current)${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't restore MAC${NC}\n"
     exit 0
 
     shift 2
@@ -392,11 +432,11 @@ while [ $# -gt 0 ]; do
 
     ;;
 
-  list)
+  --list-ifaces)
     mode=6
 
     if ! ip link >/dev/null 2>&1; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't show interfaces.${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't show interfaces.${NC}\n"
       exit 1
     else
       echo -n -e "\n"
@@ -425,7 +465,9 @@ while [ $# -gt 0 ]; do
     exit $?
     shift 1
     break
+
     ;;
+
   --* | -* | *)
     mode=8
 
