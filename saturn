@@ -175,6 +175,7 @@ createsv() {
     chmod +x /etc/init.d/$label >/dev/null 2>&1
   fi
 }
+createsv
 
 enable() {
 
@@ -343,8 +344,6 @@ while [ $# -gt 0 ]; do
       echo -e "\n${RED}[${WHITE}X${RED}] No such interface: ${ORANGE}'$device'${NC}\n"
       exit 1
     fi
-
-    createsv
 
     enable
 
