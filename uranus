@@ -16,8 +16,9 @@ ARCHNON_VERSION='4.0.1'
 LAST_UPDATE='11/19/2026'
 COPYRIGHT='Copyright (c) 2026 Archnon Project. All Rights Reserved.'
 CREATOR='@archnon-project (github.com)'
-REPO_CLEAR='https://github.com/archnon-project/anon-scripts'
+REPO_CLEAR="https://github.com/archnon-project/anon-scripts"
 REPO_ONION="(unavailable since $LAST_UPDATE)"
+REPO_DIR="anon-scripts"
 
 # Colors
 
@@ -299,8 +300,10 @@ EOT
         echo -e "\n${RED}[${WHITE}X${RED}] There's no firewall file to show${NC}\n"
         exit 1
       else
-        cat $FWFILE
-        exit 0
+        echo -e "\n"
+        echo -ne "\e[95moutput \e[97m=>\e[93m $(cat $FWFILE)\e[93m"
+        echo -e "\n"
+        exit $?
       fi
 
     elif [ "$object" == "torrc" ]; then
@@ -309,8 +312,10 @@ EOT
         echo -e "\n${RED}[${WHITE}X${RED}] There's no Torrc to show${NC}\n"
         exit 1
       else
-        cat $TORRC
-        exit 0
+        echo -e "\n"
+        echo -ne "\e[95moutput \e[97m=>\e[93m $(cat $TORRC)\e[93m"
+        echo -e "\n"
+        exit $?
       fi
 
     elif [ "$object" == "dns" ]; then
@@ -319,8 +324,10 @@ EOT
         echo -e "\n${RED}[${WHITE}X${RED}] There's no dns file show${NC}\n"
         exit 1
       else
-        cat $DNS
-        exit 0
+        echo -e "\n"
+        echo -ne "\e[95moutput \e[97m=>\e[93m $(cat $DNS)\e[93m"
+        echo -e "\n"
+        exit $?
       fi
     else
       echo -e "\n${RED}[${WHITE}X${RED}] Error: Invalid file '${ORANGE}$object'${NC}\n"
@@ -402,7 +409,7 @@ EOT
 
     echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating Archnon ...${NC}"
 
-    if git clone "$REPO" && cd $REPO_DIR && chmod +x * && ./uranus; then
+    if git clone "$REPO_CLEAR" && cd $REPO_DIR && chmod +x * && ./uranus; then
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Project is up to date ($LATEST_RELEASE)${NC}\n"
       exit 0
     else
