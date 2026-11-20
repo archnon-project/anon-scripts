@@ -13,7 +13,7 @@
 # Env
 BIN_VERSION='4.0.0'
 ARCHNON_VERSION='4.0.1'
-LAST_UPDATE='11/19/2026'
+LAST_UPDATE='11/20/2026'
 COPYRIGHT='Copyright (c) 2026 Archnon Project. All Rights Reserved.'
 CREATOR='@archnon-project (github.com)'
 REPO_CLEAR="https://github.com/archnon-project/anon-scripts"
