@@ -32,9 +32,9 @@ NC="\e[0m"
 
 
 BIN_VERSION='4.0.0'
-COPYRIGHT='# Copyright (c) 2026 Archnon Project. All Rights Reserved.  #'
+COPYRIGHT='Copyright (c) 2026 Archnon Project. All Rights Reserved.'
 OWNER='@archnon-project (github.com)'
-REPO_CLEAR='https://github.com/archnon-project/anon-scripts'
+REPO_CLEAR="https://github.com/archnon-project/anon-scripts"
 ARCHNON_VERSION='4.0.1'
 LAST_UPDATE="11/20/2026"
 REPO_ONION="(unavailable since $LAST_UPDATE)"
