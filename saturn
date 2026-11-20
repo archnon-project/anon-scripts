@@ -400,7 +400,7 @@ while [ $# -gt 0 ]; do
     else
       if pgrep -a mars >/dev/null 2>&1; then
          MARS_PID=$(echo -e "\e[93m$(pgrep mars)\e[0m")
-         echo -e "\n"
+         echo -ne "\n"
 		 read -e -p $"[*] Found pid for mars($MARS_PID), do you wish to launch another separated process (y/n)? => " ANSWER $ANSWER
 
          if [[ "$ANSWER" == "y" ]]; then
