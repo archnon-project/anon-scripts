@@ -300,7 +300,7 @@ EOT
         echo -e "\n${RED}[${WHITE}X${RED}] There's no firewall file to show${NC}\n"
         exit 1
       else
-        echo -e "\n"
+        echo -ne "\n"
         echo -ne "\e[95moutput \e[97m=>\e[93m $(cat $FWFILE)\e[93m"
         echo -e "\n"
         exit $?
@@ -312,7 +312,7 @@ EOT
         echo -e "\n${RED}[${WHITE}X${RED}] There's no Torrc to show${NC}\n"
         exit 1
       else
-        echo -e "\n"
+        echo -ne "\n"
         echo -ne "\e[95moutput \e[97m=>\e[93m $(cat $TORRC)\e[93m"
         echo -e "\n"
         exit $?
@@ -324,7 +324,7 @@ EOT
         echo -e "\n${RED}[${WHITE}X${RED}] There's no dns file show${NC}\n"
         exit 1
       else
-        echo -e "\n"
+        echo -ne "\n"
         echo -ne "\e[95moutput \e[97m=>\e[93m $(cat $DNS)\e[93m"
         echo -e "\n"
         exit $?
@@ -409,7 +409,7 @@ EOT
 
     echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating Archnon ...${NC}"
 
-    if git clone "$REPO_CLEAR" && cd $REPO_DIR && chmod +x * && cp * /usr/local/bin; then
+    if git clone "$REPO_CLEAR" && cd $REPO_DIR && chmod +x * && cp * /usr/local/bin && rm -rf $REPO_DIR; then
       echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Project is up to date \e[94m(\e[93m$ARCHNON_VERSION\e[97m,\e[95m $LAST_UPDATE\e[94m)${NC}\n"
       exit $?
     else
