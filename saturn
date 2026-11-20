@@ -385,7 +385,7 @@ while [ $# -gt 0 ]; do
     fi
 
     if [[ -z "$dev" || -z "$sec" ]]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] usage: saturn --bg-change ${NC}<${P}interface> <seconds>${NC}\n"
+      echo -e "\n${RED}[${WHITE}X${RED}] usage: saturn --bg-change ${NC}<${P}interface\e[0m> <\e[95mseconds\e[0m>${NC}\n"
       exit 1
     fi
 
@@ -398,7 +398,7 @@ while [ $# -gt 0 ]; do
       echo -e "\n${RED}[${WHITE}X${RED}] Missing background script: ${ORANGE}'mars'${NC}\n"
       exit 1
     else
-      mars $device $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Changing MAC as a bg PID${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Couldn't launch background pid${NC}\n"
+      mars $dev $sec && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Changing MAC as a bg PID${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Couldn't launch background pid${NC}\n"
       dlist
       exit 0
     fi
