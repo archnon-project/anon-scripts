@@ -114,10 +114,10 @@ CONTROL=9151
 HTTP=8181
 
 # Configuration Files
-# Default: /etc/tor/torrc, /etc/jupiter.nft, /etc/resolv.conf
+# Default: /etc/tor/torrc, /etc/archnon.nft, /etc/resolv.conf
 
 TORRC=/etc/tor/torrc
-FWFILE=/etc/jupiter.nft
+FWFILE=/etc/archnon.nft
 DNS=/etc/resolv.conf
 
 version(){
@@ -148,7 +148,7 @@ usage() {
   echo -e "\n${BLUE}[${ORANGE}6${BLUE}]${LB} --update-project${BLUE}: ${ORANGE}update ${P}Archnon Project ${ORANGE}via git.${NC}"
 
   echo -e "\n${BLUE}[${ORANGE}7${BLUE}]${LB} --version${BLUE}: ${ORANGE}Print version of binary.${NC}"
-  echo -e "\n${BLUE}[${ORANGE}8${BLUE}]${LB} --help${BLUE}: ${ORANGE}Print manual.${NC}"
+  echo -e "\n${BLUE}[${ORANGE}8${BLUE}]${LB} --help${BLUE}: ${ORANGE}Print manual.${NC}\n"
 }
 
 # modes "$1"
@@ -160,12 +160,12 @@ while [ $# -gt 0 ]; do
     mode=10
 
     if [ $EUID -ne 0 ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
 
     if ! [ -f $TORRC ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] There's no torrc to reset${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] There's no torrc to reset${NC}\n"
       exit 1
     fi
 
@@ -201,7 +201,7 @@ HardwareAccel 1
 EOT
     }
 
-    rtorc && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Done, restart Tor to apply${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Could not reset: ${ORANGE}$TORRC${NC}"
+    rtorc && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Done, restart Tor to apply${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Could not reset: ${ORANGE}$TORRC${NC}\n"
     exit 0
 
     shift 1
@@ -212,7 +212,7 @@ EOT
     mode=11
 
     if [ $EUID -ne 0 ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
 
@@ -225,7 +225,7 @@ EOT
     fi
 
     if ! [ -f $file ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such file: ${ORANGE}'$2'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such file: ${ORANGE}'$2'${NC}\n"
       exit 1
     fi
 
@@ -238,7 +238,7 @@ EOT
       # Sorry but changing Tor ports without touching script may break the firewall logic #
 
       echo -e "\n# Do NOT change Tor ports, it may break script's firewall logic !! #\nTransPort $ADDR:$TRANS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nDNSPort $ADDR:$DNS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nSocksPort $ADDR:$SOCKS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nControlPort $ADDR:$CONTROL\nHTTPTunnelPort $ADDR:$HTTP" >>$TORRC
-      cat "$file" >>$TORRC && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} custom Torrc applied${NC}" || echo -e "\n${RED}[${WHITE}X${RED}] Could not apply: ${ORANGE}'$file'${NC}"
+      cat "$file" >>$TORRC && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Custom Torrc applied${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Could not apply: ${ORANGE}'$file'${NC}\n"
       chattr +i $TORRC >/dev/null 2>&1
 
       if id debian-tor >/dev/null 2>&1; then
@@ -248,13 +248,13 @@ EOT
       elif id toranon >/dev/null 2>&1; then
         export TOR_USER="toranon"
       else
-        echo -e "\n${RED}[${WHITE}X${RED}] No user for tor?${NC}"
+        echo -e "\n${RED}[${WHITE}X${RED}] No user for tor?${NC}\n"
         read -e -p $'\n\e[1;31m[\e[1;33mwarn\e[1;31m]\e[1;37m Please, enter a system user(but not root) => \e[1;32m' TOR_USER $TOR_USER
 
         if id $TOR_USER >/dev/null 2>&1; then
           export TOR_USER=$TOR_USER
         else
-          echo -e "\n${RED}[${LB}err${RED}] There is no user: ${ORANGE}'$TOR_USER'${NC}"
+          echo -e "\n${RED}[${LB}err${RED}] There is no user: ${ORANGE}'$TOR_USER'${NC}\n"
           exit 1
         fi
 
@@ -263,15 +263,15 @@ EOT
       chown -R $TOR_USER:$TOR_USER $TORRC >/dev/null 2>&1
 
       if tor --verify-config >/dev/null 2>&1; then
-        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Valid Torrc, you can restart Tor${NC}"
+        echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Valid Torrc, you can restart Tor${NC}\n"
         exit 0
       else
-        echo -e "\n${RED}[${WHITE}X${RED}] Invalid Torrc${NC}"
+        echo -e "\n${RED}[${WHITE}X${RED}] Invalid Torrc${NC}\n"
         exit 1
       fi
 
     else
-      echo -e "\n${RED}[${WHITE}X${RED}] No such file: ${ORANGE}'$TORRC'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such file: ${ORANGE}'$TORRC'${NC}\n"
       exit 1
     fi
 
@@ -287,16 +287,16 @@ EOT
     if [[ -z $object ]]; then
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}uranus ${P}--print-file ${NC}<${BLUE}file${NC}>"
       echo -e "\n${ORANGE}[${YELLOW}warn${ORANGE}]${NC} Files are:"
-      echo -e "\n${LB}firewall${NC}: ${BLUE}(${GREEN}$FWFILE${BLUE})${NC}"
-      echo -e "\n${LB}torrc${NC}: ${BLUE}(${GREEN}$TORRC${BLUE})${NC}"
-      echo -e "\n${LB}dns${NC}: ${BLUE}(${GREEN}$DNS${BLUE})${NC}"
+      echo -e "\n\e[97m1. ${LB}firewall${NC}: ${BLUE}(${GREEN}$FWFILE${BLUE})${NC}"
+      echo -e "\n\e[97m2. ${LB}torrc${NC}: ${BLUE}(${GREEN}$TORRC${BLUE})${NC}"
+      echo -e "\n\e[97m3. ${LB}dns${NC}: ${BLUE}(${GREEN}$DNS${BLUE})${NC}\n"
       exit 1
     fi
 
     if [ "$object" == "firewall" ]; then
 
       if ! [ -f $FWFILE ]; then
-        echo -e "\n${RED}[${WHITE}X${RED}] There's no firewall file to show${NC}"
+        echo -e "\n${RED}[${WHITE}X${RED}] There's no firewall file to show${NC}\n"
         exit 1
       else
         cat $FWFILE
@@ -306,7 +306,7 @@ EOT
     elif [ "$object" == "torrc" ]; then
 
       if ! [ -f $TORRC ]; then
-        echo -e "\n${RED}[${WHITE}X${RED}] There's no Torrc to show${NC}"
+        echo -e "\n${RED}[${WHITE}X${RED}] There's no Torrc to show${NC}\n"
         exit 1
       else
         cat $TORRC
@@ -316,14 +316,14 @@ EOT
     elif [ "$object" == "dns" ]; then
 
       if ! [ -f $DNS ]; then
-        echo -e "\n${RED}[${WHITE}X${RED}] There's no dns file show${NC}"
+        echo -e "\n${RED}[${WHITE}X${RED}] There's no dns file show${NC}\n"
         exit 1
       else
         cat $DNS
         exit 0
       fi
     else
-      echo -e "\n${RED}[${WHITE}X${RED}] Error: Invalid file '${ORANGE}$object'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: Invalid file '${ORANGE}$object'${NC}\n"
       exit 1
     fi
 
@@ -335,12 +335,12 @@ EOT
     mode=7
 
     if [ $EUID -ne 0 ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
 
     if ! [ -f $TORRC ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Error: file doesn't even exists \e[93m'$TORRC'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: file doesn't even exists \e[93m'$TORRC'${NC}\n"
       exit 1
     fi
 
@@ -356,11 +356,11 @@ EOT
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}uranus ${BLUE}--bridges-torrc ${YELLOW}<${NC}torrc${YELLOW}> ${YELLOW}<${NC}kind${YELLOW}> ${YELLOW}<${NC}bin${YELLOW}>${NC}"
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} example: ${LB}uranus ${BLUE}--bridges-torrc ${P}bridges.txt ${P}obfs4 ${P}/usr/bin/obfs4proxy${NC}"
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} correct format for bridges: ${NC}<${YELLOW}'bridge'${NC}> ${YELLOW}<${NC}type${YELLOW}> [${NC}IP${YELLOW}]${GREEN}:${YELLOW}[${NC}PORT${YELLOW}] [${NC}fingerprint${YELLOW}] [${NC}Key=value${YELLOW}]${NC}"
-      echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} example bridge: ${GREEN}bridge obfs4 212.227.255.73:8443 F54793EA577F90F679A9C0E787AB8431BDDABB41 cert=dOzgPNKdfo3SZIC2Sp3qtDX7wuo1KLzBe1KSzSAuK9CkySqF5/TnudjgHPub5sobpso4fw iat-mode=0${NC}"
+      echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} example bridge: ${GREEN}bridge obfs4 212.227.255.73:8443 F54793EA577F90F679A9C0E787AB8431BDDABB41 cert=dOzgPNKdfo3SZIC2Sp3qtDX7wuo1KLzBe1KSzSAuK9CkySqF5/TnudjgHPub5sobpso4fw iat-mode=0${NC}\n"
       exit 1
 
     elif ! [[ -f $file || -f $bin ]]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] No such bin or file${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] No such bin or file${NC}\n"
       exit 1
     fi
 
@@ -369,13 +369,13 @@ EOT
     echo -e "\n# <--- Generated by uranus ---> #\n# Bridges Configuration #\n# NOT TOUCH, THIS FILE IS CUSTOM LOAD #\n# File locked by chattr +i, unlock: sudo chattr -i $TORRC #\nCookieAuthentication 0\nVirtualAddrNetworkIPv4 10.192.0.0/10\nAutomapHostsOnResolve 1\nMaxCircuitDirtiness 60\nAutomapHostsSuffixes .exit,.onion\nTransPort $ADDR:$TRANS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nDNSPort $ADDR:$DNS\nControlPort $ADDR:$CONTROL\nSocksPort $ADDR:$SOCKS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nHTTPTunnelPort $ADDR:$HTTP\nClientTransportPlugin $kind exec $bin\n$bridges\nUseBridges 1\nClientUseIPv6 0\nClientPreferIPv6ORPORT 0\nClientRejectInternalAddresses 1\nHardwareAccel 1\nEnforceDistinctSubnets 1\nAvoidDiskWrites 1\n" | tee $TORRC >/dev/null 2>&1
 
     if tor --verify-config >/dev/null 2>&1; then
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Valid Torrc, you can restart Tor${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Valid Torrc, you can restart Tor${NC}\n"
       chown -R $TOR_USER:$TOR_USER $TORRC
       chown -R $TOR_USER:$TOR_USER /var/lib/tor
       chattr +i $TORRC >/dev/null 2>&1
       exit 0
     else
-      echo -e "\n${RED}[${WHITE}X${RED}] Invalid Torrc${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Invalid Torrc${NC}\n"
       exit 1
     fi
 
@@ -387,14 +387,14 @@ EOT
     mode=11
 
     if [ $EUID -ne 0 ]; then
-      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Run as root${NC}\n"
       exit 1
     fi
 
     cmd=git
 
     if ! (command -v $cmd >/dev/null 2>&1); then
-      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'$cmd'${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Install: ${ORANGE}'$cmd'${NC}\n"
       exit 1
     fi
 
@@ -403,10 +403,10 @@ EOT
     echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating Archnon ...${NC}"
 
     if git clone "$REPO" && cd $REPO_DIR && chmod +x * && ./uranus; then
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Project is up to date ($LATEST_RELEASE)${NC}"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Project is up to date ($LATEST_RELEASE)${NC}\n"
       exit 0
     else
-      echo -e "\n${RED}[${WHITE}X${RED}] Couldn't update project${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Couldn't update project${NC}\n"
       exit 1
     fi
 
@@ -433,7 +433,7 @@ EOT
     mode=6
 
     echo -e "\n${RED}[${WHITE}X${RED}] Invalid option: ${ORANGE}'$1'${NC}"
-    echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} Try: '${LB}$0 ${BLUE}--help${ORANGE}'${NC}"
+    echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} Try: '${LB}$0 ${BLUE}--help${ORANGE}'${NC}\n"
     exit 1
 
     shift 1
