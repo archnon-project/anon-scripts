@@ -42,6 +42,36 @@
   ./archnon # or whatever
 ```
 
+## ***Installation for Arch-based distros (a second way, this is optional but i recommend)***
+
+1. Clone this GitHub repository, right from your terminal:
+
+```bash
+  git clone https://github.com/archnon-project/anon-scripts/
+```
+
+2. Change your current position to inside the main directory:
+
+```bash
+  cd anon-scripts
+```
+
+3. Build the package with makepkg (avoid deleting PKGBUILD):
+
+```bash
+   sudo -u $USER makepkg -f -si # replace $USER with a non-privileged local user.
+```
+
+4. Verify is installed:
+
+```bash
+  pacman -Qi archnon-project # it will show lot of information about this project
+```
+5. Test and let the scripts manage all dependencies alone:
+```bash
+  archnon --version # the same with: mars, neptune, saturn, uranus.
+```
+
 ## ***License***
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/) 
 * [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)
