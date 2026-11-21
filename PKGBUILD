@@ -6,7 +6,7 @@ arch=('any')
 url="https://github.com/archnon-project/anon-scripts"
 license=('GPL-3.0-or-later')
 makedepends=('git')
-depends=('bash' 'openbsd-netcat' 'curl' 'tor' 'nftables' 'procps-ng' 'networkmanager' 'iproute2' 'coreutils' 'util-linux' 'e2fsprogs' 'i2pd')
+depends=('bash')
 source=("git+https://github.com/archnon-project/anon-scripts.git")
 sha256sums=('SKIP')
 
