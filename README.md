@@ -4,11 +4,12 @@
 
 ## ***Features***
 
-- Proxies: Tor and i2pd.
+- Proxy support: Tor and i2pd.
 - Firewall: nftables.
 - Supported Systems for service: systemd, runit, open-rc.
 - Supported Package managers: apt, pacman, dnf, yum, apk, zypper, emerge, xbps-install.
-- Number of scripts: 9.
+- Number of scripts: 4.
+- Special support for Arch users: PKGBUILD and .pkg.tar.zst.
 - Easy to use and dynamic.
 
 ## ***Creator***
