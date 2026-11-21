@@ -33,7 +33,7 @@ NC="\e[0m"
 
 BIN_VERSION='4.0.0'
 COPYRIGHT='Copyright (c) 2026 Archnon Project. All Rights Reserved.'
-OWNER='@archnon-project (github.com)'
+CREATOR='@archnon-project (github.com)'
 REPO_CLEAR="https://github.com/archnon-project/anon-scripts"
 ARCHNON_VERSION='4.0.1'
 LAST_UPDATE="11/20/2026"
@@ -50,7 +50,7 @@ echo -e "
 \e[97m[   \e[92mCopyright   \e[97m]\e[0m
 
 \e[96mCopyright: \e[92m$COPYRIGHT\e[0m
-\e[96mProject Creator: \e[92m$OWNER\e[0m
+\e[96mProject Creator: \e[92m$CREATOR\e[0m
 
 \e[97m[\e[92m   Git Repositories   \e[97m]\e[0m
 
@@ -74,25 +74,20 @@ PROXY_MODE="tor"
 usage() {
   echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${P}neptune ${NC}<${GREEN}COMMAND${NC}> <${LB}URL${NC}>${NC}"
   echo -e "\n${BLUE}[${YELLOW}1${BLUE}]${ORANGE} --url ${NC}<${P}url${NC}>: ${WHITE}Resolv url using default proxy addr: '$ADDR:$PORT'.${NC}"
-  echo -e "\n${BLUE}[${YELLOW}2${BLUE}]${ORANGE} --proxy-url ${NC}<${P}addr${NC}> <${P}url${NC}>: ${WHITE}Use specific proxy addr for resolve.${NC}"
   
-  echo -e "\n${BLUE}[${YELLOW}3${BLUE}]${ORANGE} --set-dns ${NC}<${P}addr${NC}>: ${WHITE}Change universal dns address for an specific addr.${NC}"
+  echo -e "\n${BLUE}[${YELLOW}2${BLUE}]${ORANGE} --set-dns ${NC}<${P}addr${NC}>: ${WHITE}Change universal dns address for an specific addr.${NC}"
 
-  echo -e "\n${BLUE}[${YELLOW}4${BLUE}]${ORANGE} --verbose: ${WHITE}Enable verbose output (for everything).${NC}"
-  echo -e "\n${BLUE}[${YELLOW}5${BLUE}]${ORANGE} --curl-params <'params'>: ${WHITE}Give specific curl additional params.${NC}"
-  echo -e "\n${BLUE}[${YELLOW}6${BLUE}]${ORANGE} --proxy-app \e[0m<\e[97mapp\e[0m>: ${WHITE}Load any app through proxy mode.${NC}" 
-
-  echo -e "\n${BLUE}[${YELLOW}7${BLUE}]${ORANGE} --help: ${WHITE}Print manual & exit.${NC}"
-  echo -e "\n${BLUE}[${YELLOW}8${BLUE}]${ORANGE} --version: ${WHITE}Print program info & exit.${NC}"
+  echo -e "\n${BLUE}[${YELLOW}3${BLUE}]${ORANGE} --help: ${WHITE}Print manual & exit.${NC}"
+  echo -e "\n${BLUE}[${YELLOW}4${BLUE}]${ORANGE} --version: ${WHITE}Print program info & exit.${NC}"
 
   echo -ne "\n"
 
 exit $?
 }
 
-need=(e2fsprogs curl proxychains-ng)
+need=(e2fsprogs curl)
 
-if ! command -v proxychains4 >/dev/null 2>&1; then
+if ! $(command -v curl >/dev/null 2>&1 && command -v chattr >/dev/null 2>&1); then
   if [[ $(command -v apt) ]]; then
     if ! apt install -y "${need[@]}"; then
       echo -e "\n${RED}[${WHITE}X${RED}] Could not install: ${ORANGE}"${need[@]}"${NC}\n"
@@ -144,7 +139,7 @@ echo -e "${BLUE}▄▄  ▄▄ ▄▄▄▄▄ ▄▄▄▄ ▄▄▄▄▄▄ �
 echo -e "${BLUE}███▄██ ██▄▄  ██▄█▀  ██   ██ ██ ███▄██ ██▄▄  "
 echo -e "${BLUE}██ ▀██ ██▄▄▄ ██     ██   ▀███▀ ██ ▀██ ██▄▄▄ "
 echo -e "${BLUE}                                            "
-echo -e "\n\e[97m[*] Created By: \e[95m@archnon-project\e[95m\e[0m"
+echo -e "\n\e[97m[*] Created By: \e[95m$CREATOR\e[95m\e[0m"
 
 
 if [[ $# -gt 0 ]]; then
@@ -155,7 +150,7 @@ while [ $# -gt 0 ]; do
 
     if [ -z $url ]; then
 	  
-      echo -e "\n${RED}[${WHITE}X${RED}] Missing an url for resolve${NC}"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an url${NC}"
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}neptune ${P}--url ${YELLOW}<${NC}url${YELLOW}>${NC}\n"
 	  exit 1
 
@@ -169,79 +164,23 @@ while [ $# -gt 0 ]; do
 
       SOCKS5="$DEF_ADDR"
 
-      echo -e "\n\e[94m[\e[93m!\e[94m]\e[92m Resolve: \e[93m'$url'\e[92m status ...\e[0m\n"
-      
-      sleep 1
+      echo -e "\n\e[94m[\e[93m!\e[94m]\e[92m Resolve: \e[93m'$url'\e[92m status ...\e[0m"
 
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Address: \e[93m$SOCKS5${NC}\n"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Address: \e[93m$SOCKS5${NC}"
 
-      sleep 1
-
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Mode: \e[93m$PROXY_MODE${NC}\n"
+      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Mode: \e[93m$PROXY_MODE${NC}"
 
       sleep 1
 
-      [[ $VERBOSE == "yes" ]] && cmd="curl --socks5-hostname $SOCKS5 --url $url -v -s"
+      cmd="curl --socks5-hostname $SOCKS5 --url $url -s"
 
-      [[ $VERBOSE == "no" ]] && cmd="curl --socks5-hostname $SOCKS5 --url $url -s"
-
-      ! [[ -z $CURL_PARAMS ]] && CMD="$cmd $CURL_PARAMS"
-
-      [[ -z $CURL_PARAMS ]] && CMD="$cmd"
-
-      echo -e "\n\e[96moutput ==>\e[0m $($CMD)\n" || echo -e "\n${RED}[${WHITE}X${RED}] Could not resolv: ${ORANGE}'$url'${NC}\n"
+      echo -e "\n\e[96moutput ==>\e[0m $($cmd)\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't resolv ${ORANGE}'$url'${NC}\n"
       
       sleep 1
 
     fi
 
     shift 2
-
-    ;;
-
-  --proxy-url)
-    PROXY_ADDR=$2
-    url=$3
-
-    if [[ -z $PROXY_ADDR || -z $url ]]; then
-
-      echo -e "\n${RED}[${WHITE}X${RED}] Missing proxy addr/url for resolve${NC}\n"
-      echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}neptune ${P}--proxy-url ${NC}<${BLUE}addr${NC}> <${BLUE}url${NC}>${NC}\n"
-      exit 1
-
-    else
-
-      PROXY=$PROXY_ADDR
-      PROXY_MODE="custom"
-
-      [[ $VERBOSE == "yes" ]] && cmd="curl --proxy $PROXY --url $url -v -s"
-
-      [[ $VERBOSE == "no" ]] && cmd="curl --proxy $PROXY --url $url -s"
-
-      ! [[ -z "$CURL_PARAMS" ]] && CMD="$cmd $CURL_PARAMS"
-
-      [[ -z "$CURL_PARAMS" ]] && CMD="$cmd"
-
-      echo -e "\n\e[94m[\e[93m!\e[94m]\e[92m Resolve: \e[93m'$url'\e[92m status ...\e[0m\n"
-      
-      sleep 1
-
-
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Address: \e[93m$PROXY${NC}\n"
-
-      sleep 1
-
-      echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} Proxy Mode: \e[93m$PROXY_MODE${NC}\n"
-
-      sleep 1
-
-      echo -e "\n\e[96moutput ==>\e[0m $($CMD)\n" || echo -e "\n${RED}[${WHITE}X${RED}] Could not resolv: ${ORANGE}'$url'${NC}\n"
-
-      sleep 1
-
-    fi
-
-    shift 3
  
     ;;
 
@@ -254,7 +193,7 @@ while [ $# -gt 0 ]; do
 
     if [ -z $addr ]; then
       
-      echo -e "\n${RED}[${WHITE}X${RED}] Missing the address to set, e.g: $ADDR${NC}\n"
+      echo -e "\n${RED}[${WHITE}X${RED}] Error: need an IP address, like '$ADDR' which is default on this script.${NC}"
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}neptune ${BLUE}--set-dns ${YELLOW}<${BLUE}addr${YELLOW}>${NC}\n"
       exit 1
 
@@ -264,7 +203,7 @@ while [ $# -gt 0 ]; do
       rm /etc/resolv.conf >/dev/null 2>&1
       touch /etc/resolv.conf >/dev/null 2>&1
 
-      echo "nameserver $addr" | tee /etc/resolv.conf >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} New dns address: ${GREEN}$addr${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Could not set dns address${NC}\n"
+      echo "nameserver $addr" | tee /etc/resolv.conf >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} New dns address: ${GREEN}$addr${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't set address${NC}\n"
 
       sleep 1
 
@@ -273,41 +212,7 @@ while [ $# -gt 0 ]; do
     shift 2
 
     ;;
-
-    --verbose)
-    VERBOSE="yes"
     
-    shift 1
-    
-    ;;
-    
-    --curl-params)
-    CURL_PARAMS=$2
-
-    if [[ -z $CURL_PARAMS ]]; then
-	echo -e "\n\e[91mError: '--curl-params' without actually params.\e[0m\n"
-	exit 1
-    fi
-
-    shift 2
-
-    ;;
-
-    --proxy-app)
-    PROXY_APP=$2
-    
-    if [[ -z $PROXY_APP ]]; then
-	    echo -e "\n\e[91mError: '--proxy-app' without an app\e[0m\n"
-	    exit 1
-    else
-	    proxychains4 "$PROXY_APP"
-	    exit $?
-    fi
-
-    shift 2
-
-    ;;
-
     --version)
     version
 
@@ -326,6 +231,13 @@ while [ $# -gt 0 ]; do
     ;;
 
   --* | -* | *)
+
+	if pgrep -xa tor >/dev/null 2>&1 && pgrep -a i2pd >/dev/null 2>&1; then
+		echo -e "\n\e[96moutput ==> \e[0m$(curl --socks5-hostname "$ADDR:$PORT" --url $1 -s)\n"
+	else
+        echo -e "\n\e[91m[\e[97m-\e[91m] No active proxy found on this system, please start tor/i2pd.\e[0m\n"
+        exit 1
+    fi
 
     echo -e "\n\e[96moutput ==> \e[0m$(curl --socks5-hostname "$ADDR:$PORT" --url $1 -s)\n"
 
