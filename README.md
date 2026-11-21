@@ -62,7 +62,7 @@
    sudo -u $USER makepkg -f -si # replace $USER with a non-privileged local user.
 ```
 
-4. Verify is installed:
+4. Verify it's installed:
 
 ```bash
   pacman -Qi archnon-project # it will show lot of information about this project
