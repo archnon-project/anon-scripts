@@ -148,6 +148,11 @@ while [ $# -gt 0 ]; do
   --url)
     url=$2
 
+	if ! pgrep -xa tor >/dev/null 2>&1 && ! pgrep -a i2pd >/dev/null 2>&1; then
+		echo -e "\n\e[91m[\e[97m-\e[91m] No active proxy found on this system, please start tor/i2pd.\e[0m\n"
+        exit 1
+    fi
+
     if [ -z $url ]; then
 	  
       echo -e "\n${RED}[${WHITE}X${RED}] Error: need an url${NC}"
@@ -203,7 +208,7 @@ while [ $# -gt 0 ]; do
       rm /etc/resolv.conf >/dev/null 2>&1
       touch /etc/resolv.conf >/dev/null 2>&1
 
-      echo "nameserver $addr" | tee /etc/resolv.conf >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} New dns address: ${GREEN}$addr${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't set address${NC}\n"
+      echo "nameserver $addr" | tee /etc/resolv.conf >/dev/null 2>&1 && echo -e "\n${BLUE}[${LB}OK${BLUE}]${P} New dns address: ${GREEN}$addr${NC}\n" || echo -e "\n${RED}[${WHITE}X${RED}] Error: couldn't set address, run as sudo/root${NC}\n"
 
       sleep 1
 
