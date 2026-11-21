@@ -72,6 +72,36 @@
   archnon --version # the same with: mars, neptune, saturn, uranus.
 ```
 
+## ***Installation for Arch-based distros (a third and last way, i promise)***
+
+1. Clone this GitHub repository, right from your terminal:
+
+```bash
+  git clone https://github.com/archnon-project/anon-scripts/
+```
+
+2. Change your current position to inside the main directory:
+
+```bash
+  cd anon-scripts
+```
+
+3. Install the package as root (using pacman):
+
+```bash
+   sudo pacman -U archnon-project-4.0.1-any.pkg.tar.zst
+```
+
+4. Verify it's installed:
+
+```bash
+  pacman -Qi archnon-project
+```
+5. Test and let the scripts manage all dependencies alone:
+```bash
+  archnon --version # the same with: mars, neptune, saturn, uranus.
+```
+
 ## ***License***
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/) 
 * [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)
